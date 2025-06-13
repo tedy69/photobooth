@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <!-- Homepage -->
+  <url>
+    <loc>https://photobooth.tedyfazrin.com/</loc>
+    <lastmod>2025-06-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://photobooth.tedyfazrin.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://photobooth.tedyfazrin.com/es"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://photobooth.tedyfazrin.com/fr"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://photobooth.tedyfazrin.com/de"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://photobooth.tedyfazrin.com/pt"/>
+  </url>
+  
+  <!-- Privacy Policy -->
+  <url>
+    <loc>https://photobooth.tedyfazrin.com/privacy</loc>
+    <lastmod>2025-06-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Terms of Service -->
+  <url>
+    <loc>https://photobooth.tedyfazrin.com/terms</loc>
+    <lastmod>2025-06-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Support -->
+  <url>
+    <loc>https://photobooth.tedyfazrin.com/support</loc>
+    <lastmod>2025-06-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+</urlset>

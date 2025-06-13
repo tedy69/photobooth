@@ -1,0 +1,87 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#backgroundGradient)"/>
+  
+  <!-- Grid Pattern -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  
+  <!-- Main Content Container -->
+  <rect x="60" y="60" width="1080" height="510" rx="20" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+  
+  <!-- Left Side - Logo and Camera -->
+  <g transform="translate(120, 140)">
+    <!-- Large Camera Icon -->
+    <rect x="0" y="60" width="200" height="140" rx="20" fill="#2D3748" stroke="#4A5568" stroke-width="3"/>
+    <!-- Lens -->
+    <circle cx="100" cy="130" r="45" fill="#718096" stroke="#2D3748" stroke-width="4"/>
+    <circle cx="100" cy="130" r="30" fill="#1A202C"/>
+    <circle cx="100" cy="130" r="15" fill="#4299E1"/>
+    <!-- Flash -->
+    <rect x="140" y="40" width="20" height="12" rx="3" fill="#F7FAFC"/>
+    <!-- Shutter -->
+    <circle cx="160" cy="80" r="10" fill="#48BB78"/>
+    
+    <!-- Photo Strip -->
+    <rect x="220" y="20" width="30" height="200" rx="6" fill="rgba(255,255,255,0.9)"/>
+    <rect x="225" y="35" width="20" height="20" rx="2" fill="#E2E8F0"/>
+    <rect x="225" y="65" width="20" height="20" rx="2" fill="#E2E8F0"/>
+    <rect x="225" y="95" width="20" height="20" rx="2" fill="#E2E8F0"/>
+    <rect x="225" y="125" width="20" height="20" rx="2" fill="#E2E8F0"/>
+    <rect x="225" y="155" width="20" height="20" rx="2" fill="#E2E8F0"/>
+    <rect x="225" y="185" width="20" height="20" rx="2" fill="#E2E8F0"/>
+  </g>
+  
+  <!-- Right Side - Text Content -->
+  <g transform="translate(480, 140)">
+    <!-- Main Title -->
+    <text x="0" y="60" font-family="Inter, Arial, sans-serif" font-size="72" font-weight="800" fill="white">
+      Photo Booth
+    </text>
+    <!-- Subtitle -->
+    <text x="0" y="120" font-family="Inter, Arial, sans-serif" font-size="36" font-weight="400" fill="rgba(255,255,255,0.9)">
+      Capture &amp; Create Amazing Photos
+    </text>
+    <!-- Description -->
+    <text x="0" y="170" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="300" fill="rgba(255,255,255,0.8)">
+      Professional photo booth web app with real-time
+    </text>
+    <text x="0" y="200" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="300" fill="rgba(255,255,255,0.8)">
+      camera capture, fun stickers, and instant downloads.
+    </text>
+    
+    <!-- Features -->
+    <g transform="translate(0, 250)">
+      <circle cx="8" cy="8" r="4" fill="#48BB78"/>
+      <text x="20" y="12" font-family="Inter, Arial, sans-serif" font-size="18" fill="rgba(255,255,255,0.9)">Real-time Camera</text>
+      
+      <circle cx="180" cy="8" r="4" fill="#4299E1"/>
+      <text x="192" y="12" font-family="Inter, Arial, sans-serif" font-size="18" fill="rgba(255,255,255,0.9)">Fun Stickers</text>
+      
+      <circle cx="320" cy="8" r="4" fill="#F6E05E"/>
+      <text x="332" y="12" font-family="Inter, Arial, sans-serif" font-size="18" fill="rgba(255,255,255,0.9)">Instant Download</text>
+    </g>
+  </g>
+  
+  <!-- Decorative Elements -->
+  <!-- Sparkles -->
+  <g fill="#F6E05E" opacity="0.6">
+    <path d="M950 120 L955 130 L965 125 L955 135 L950 145 L945 135 L935 125 L945 130 Z"/>
+    <path d="M1100 200 L1103 206 L1109 203 L1103 209 L1100 215 L1097 209 L1091 203 L1097 206 Z"/>
+    <path d="M200 450 L204 458 L212 454 L204 462 L200 470 L196 462 L188 454 L196 458 Z"/>
+    <path d="M1050 450 L1053 456 L1059 453 L1053 459 L1050 465 L1047 459 L1041 453 L1047 456 Z"/>
+  </g>
+  
+  <!-- Background Gradient -->
+  <defs>
+    <linearGradient id="backgroundGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667EEA;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#764BA2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#667EEA;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>

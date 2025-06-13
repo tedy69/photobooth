@@ -1,0 +1,41 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="256" fill="url(#gradient1)"/>
+  
+  <!-- Camera Body -->
+  <rect x="128" y="180" width="256" height="180" rx="24" fill="#2D3748" stroke="#4A5568" stroke-width="4"/>
+  
+  <!-- Camera Lens -->
+  <circle cx="256" cy="260" r="60" fill="#718096" stroke="#2D3748" stroke-width="6"/>
+  <circle cx="256" cy="260" r="40" fill="#1A202C"/>
+  <circle cx="256" cy="260" r="20" fill="#4299E1"/>
+  
+  <!-- Flash -->
+  <rect x="180" y="160" width="24" height="16" rx="4" fill="#F7FAFC" stroke="#E2E8F0" stroke-width="2"/>
+  
+  <!-- Viewfinder -->
+  <rect x="300" y="160" width="32" height="16" rx="4" fill="#1A202C" stroke="#4A5568" stroke-width="2"/>
+  
+  <!-- Shutter Button -->
+  <circle cx="340" cy="200" r="12" fill="#48BB78" stroke="#2D3748" stroke-width="2"/>
+  
+  <!-- Photo Strip Effect -->
+  <rect x="80" y="120" width="40" height="280" rx="8" fill="#F7FAFC" stroke="#E2E8F0" stroke-width="2" opacity="0.9"/>
+  <rect x="88" y="140" width="24" height="24" rx="2" fill="#E2E8F0"/>
+  <rect x="88" y="180" width="24" height="24" rx="2" fill="#E2E8F0"/>
+  <rect x="88" y="220" width="24" height="24" rx="2" fill="#E2E8F0"/>
+  <rect x="88" y="260" width="24" height="24" rx="2" fill="#E2E8F0"/>
+  
+  <!-- Sparkle Effects -->
+  <path d="M150 100 L155 110 L165 105 L155 115 L150 125 L145 115 L135 105 L145 110 Z" fill="#F6E05E"/>
+  <path d="M360 120 L363 126 L369 123 L363 129 L360 135 L357 129 L351 123 L357 126 Z" fill="#F6E05E"/>
+  <path d="M400 280 L404 288 L412 284 L404 292 L400 300 L396 292 L388 284 L396 288 Z" fill="#F6E05E"/>
+  
+  <!-- Gradient Definitions -->
+  <defs>
+    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667EEA;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764BA2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>
