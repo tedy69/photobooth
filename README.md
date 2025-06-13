@@ -90,6 +90,58 @@ The support form uses Web3Forms API for email delivery with a fallback to mailto
 - **Lucide React** - Beautiful, customizable icons
 - **Web3Forms** - Form submission and email delivery service
 
+## Contributing
+
+We welcome contributions to the Photo Booth Web App! Here's how you can help:
+
+### Getting Started
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature-name`
+3. Make your changes and commit them: `git commit -m 'Add some feature'`
+4. Push to the branch: `git push origin feature/your-feature-name`
+5. Submit a pull request
+
+### Guidelines
+
+- Follow the existing code style and conventions
+- Write clear, descriptive commit messages
+- Test your changes thoroughly
+- Update documentation as needed
+- Make sure your code passes all existing tests
+
+### Issues
+
+- Use the issue tracker to report bugs or suggest new features
+- Search existing issues before creating a new one
+- Provide detailed information when reporting bugs
+- Include steps to reproduce the issue
+
 ## License
 
-This project is private and proprietary.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+### MIT License Summary
+
+You are free to:
+
+- Use this software commercially
+- Modify and distribute the software
+- Use the software privately
+- Include the software in larger works
+
+Under the condition that:
+
+- You include the original copyright notice and license text
+
+## Author
+
+Created by [Tedy Fazrin](https://tedyfazrin.com)
+
+## Support
+
+If you encounter any issues or have questions, please:
+
+1. Check the [Issues](../../issues) page for similar problems
+2. Create a new issue if your problem isn't already reported
+3. Use the contact form in the app for general inquiries
