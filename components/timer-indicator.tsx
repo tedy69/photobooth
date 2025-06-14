@@ -28,13 +28,6 @@ export default function TimerIndicator({
   const photoIndexRef = useRef(currentPhotoIndex);
   const intervalCompleteRef = useRef(onIntervalComplete);
 
-  // Debug logging
-  useEffect(() => {
-    console.log(
-      `TimerIndicator updated - isActive: ${isActive}, currentPhotoIndex: ${currentPhotoIndex}/${totalPhotos}`,
-    );
-  }, [isActive, currentPhotoIndex, totalPhotos]);
-
   // Update refs when props change to avoid stale closures
   useEffect(() => {
     activeRef.current = isActive;
@@ -58,8 +51,6 @@ export default function TimerIndicator({
       return;
     }
 
-    console.log(`Starting timer for photo ${currentPhotoIndex + 1}/${totalPhotos}`);
-
     // Reset state for new timer
     setTimeLeft(interval);
     setProgress(100);
@@ -79,7 +70,6 @@ export default function TimerIndicator({
       // When timer reaches zero
       if (remaining <= 0 && !completedRef.current) {
         completedRef.current = true;
-        console.log(`Timer complete for photo ${photoIndexRef.current + 1}/${totalPhotos}`);
 
         // Stop the interval immediately to prevent multiple calls
         if (timerRef.current) {
@@ -89,7 +79,6 @@ export default function TimerIndicator({
 
         // Call the completion handler after a small delay
         setTimeout(() => {
-          console.log(`Calling onIntervalComplete for photo ${photoIndexRef.current + 1}`);
           intervalCompleteRef.current();
         }, 10);
       }

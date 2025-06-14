@@ -149,53 +149,49 @@ export default function DraggableSticker({
 
   return (
     <div
-      className='sticker-positioned'
+      ref={stickerRef}
+      className='sticker-positioned sticker'
       style={{
         left: position.x,
         top: position.y,
-        transform: `translate(${position.x}px, ${position.y}px)`,
-      }}>
-      <div
-        ref={stickerRef}
-        className='sticker'
-        role='button'
-        tabIndex={0}
-        onMouseDown={handleMouseDown}
-        onTouchStart={handleTouchStart}
-        onMouseEnter={() => setShowControls(true)}
-        onMouseLeave={() => setShowControls(false)}
-        onClick={() => isMobile && setShowControls(!showControls)}
-        onKeyDown={handleKeyDown}
-        onWheel={handleWheel}>
-        <img
-          src={src ?? '/placeholder.svg'}
-          alt={name}
-          className='object-contain select-none'
-          draggable='false'
-          width={size}
-          height={size}
-        />
+      }}
+      role='button'
+      tabIndex={0}
+      onMouseDown={handleMouseDown}
+      onTouchStart={handleTouchStart}
+      onMouseEnter={() => setShowControls(true)}
+      onMouseLeave={() => setShowControls(false)}
+      onClick={() => isMobile && setShowControls(!showControls)}
+      onKeyDown={handleKeyDown}
+      onWheel={handleWheel}>
+      <img
+        src={src ?? '/placeholder.svg'}
+        alt={name}
+        className='object-contain select-none'
+        draggable='false'
+        width={size}
+        height={size}
+      />
 
-        {showControls && (
-          <div className='sticker-controls'>
-            <Button
-              variant='destructive'
-              size='icon'
-              className='h-5 w-5 sm:h-6 sm:w-6 rounded-full mr-1'
-              onClick={() => onRemove(id)}>
-              <X className='h-3 w-3' />
-            </Button>
-            <Button
-              variant='secondary'
-              size='icon'
-              className='h-5 w-5 sm:h-6 sm:w-6 rounded-full'
-              onClick={resetSize}
-              title='Reset size'>
-              <RotateCcw className='h-3 w-3' />
-            </Button>
-          </div>
-        )}
-      </div>
+      {showControls && (
+        <div className='sticker-controls'>
+          <Button
+            variant='destructive'
+            size='icon'
+            className='h-5 w-5 sm:h-6 sm:w-6 rounded-full mr-1'
+            onClick={() => onRemove(id)}>
+            <X className='h-3 w-3' />
+          </Button>
+          <Button
+            variant='secondary'
+            size='icon'
+            className='h-5 w-5 sm:h-6 sm:w-6 rounded-full'
+            onClick={resetSize}
+            title='Reset size'>
+            <RotateCcw className='h-3 w-3' />
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

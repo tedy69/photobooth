@@ -107,7 +107,6 @@ export default function PhotoBooth() {
   const [isStripMode, setIsStripMode] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState<string>('4x1');
   const [isProcessingStrip, setIsProcessingStrip] = useState(false);
-  const [isSinglePhotoMode, setIsSinglePhotoMode] = useState(false);
 
   // Get the current template object based on selectedTemplate ID
   const currentTemplate = templates.find((t) => t.id === selectedTemplate) || templates[0];
@@ -134,13 +133,6 @@ export default function PhotoBooth() {
     isTimerActiveRef.current = isTimerActive;
     isProcessingRef.current = isProcessingStrip;
     totalPhotosNeededRef.current = totalPhotosNeeded;
-
-    // Debug logging
-    if (isTimerActive) {
-      console.log(
-        `PhotoBooth state updated - currentPhotoIndex: ${currentStripPhotoIndex}, photos: ${stripPhotos.length}/${totalPhotosNeeded}`,
-      );
-    }
   }, [currentStripPhotoIndex, stripPhotos, isTimerActive, isProcessingStrip, totalPhotosNeeded]);
 
   // Load gallery photos from localStorage on component mount
@@ -200,41 +192,9 @@ export default function PhotoBooth() {
     };
   }, []);
 
-  const capturePhoto = useCallback(() => {
-    if (videoRef.current && canvasRef.current) {
-      const video = videoRef.current;
-      const canvas = canvasRef.current;
-      const context = canvas.getContext('2d');
-
-      if (context) {
-        // Set canvas dimensions to match video
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-
-        // Save context state and apply horizontal flip
-        context.save();
-        context.scale(-1, 1);
-        context.translate(-canvas.width, 0);
-
-        // Draw video frame to canvas (mirrored)
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        // Restore context state
-        context.restore();
-
-        // Convert canvas to data URL
-        const imageDataUrl = canvas.toDataURL('image/png');
-        setCapturedImage(imageDataUrl);
-        setActiveTab('preview');
-        setAppliedStickers([]);
-      }
-    }
-  }, []);
-
   // Capture a single photo for the strip
   const captureStripPhoto = useCallback(() => {
     if (isCapturingRef.current) {
-      console.log('Already capturing, skipping');
       return;
     }
 
@@ -269,7 +229,6 @@ export default function PhotoBooth() {
           setStripPhotos((prev) => {
             const newPhotos = [...prev, imageDataUrl];
             stripPhotosRef.current = newPhotos;
-            console.log(`Added photo ${newPhotos.length}/${totalPhotosNeededRef.current}`);
             return newPhotos;
           });
 
@@ -277,7 +236,6 @@ export default function PhotoBooth() {
           setCurrentStripPhotoIndex((prev) => {
             const newIndex = prev + 1;
             currentPhotoIndexRef.current = newIndex;
-            console.log(`Updated photo index to ${newIndex}/${totalPhotosNeededRef.current}`);
             return newIndex;
           });
 
@@ -312,8 +270,6 @@ export default function PhotoBooth() {
 
   // New function to handle single photo capture after countdown
   const captureSingleCountdownPhoto = useCallback(() => {
-    console.log('Capturing single countdown photo');
-
     // Take a single photo
     captureStripPhoto();
 
@@ -356,20 +312,22 @@ export default function PhotoBooth() {
     setIsProcessingStrip(false);
     setIsTimerActive(false);
     isTimerActiveRef.current = false;
-    setIsSinglePhotoMode(false);
     setActiveTab('camera');
   }, []);
 
-  const addStickerToPhoto = useCallback((sticker: any) => {
-    const newSticker: AppliedSticker = {
-      id: uuidv4(),
-      stickerId: sticker.id,
-      src: sticker.src,
-      name: sticker.name,
-      position: { x: 50, y: 50 },
-    };
-    setAppliedStickers((prev) => [...prev, newSticker]);
-  }, []);
+  const addStickerToPhoto = useCallback(
+    (sticker: any) => {
+      const newSticker: AppliedSticker = {
+        id: uuidv4(),
+        stickerId: sticker.id,
+        src: sticker.src,
+        name: sticker.name,
+        position: { x: 50, y: 50 },
+      };
+      setAppliedStickers((prev) => [...prev, newSticker]);
+    },
+    [appliedStickers],
+  );
 
   const removeSticker = useCallback((stickerId: string) => {
     setAppliedStickers((prev) => prev.filter((sticker) => sticker.id !== stickerId));
@@ -535,13 +493,14 @@ export default function PhotoBooth() {
   const createPhotoStrip = useCallback(async () => {
     const template = templates.find((t) => t.id === selectedTemplate) || templates[0];
     const requiredPhotoCount = template.photoCount;
+    const currentStripPhotos = stripPhotosRef.current; // Use ref instead of state
 
-    if (stripPhotos.length !== requiredPhotoCount) {
-      console.warn(`Not enough photos for strip: ${stripPhotos.length}/${requiredPhotoCount}`);
+    if (currentStripPhotos.length !== requiredPhotoCount) {
+      console.warn(
+        `Not enough photos for strip: ${currentStripPhotos.length}/${requiredPhotoCount}`,
+      );
       return null;
     }
-
-    console.log(`Creating photo strip with layout ${template.id}`);
 
     try {
       // Create a temporary canvas for the strip
@@ -553,8 +512,7 @@ export default function PhotoBooth() {
       }
 
       // Use a more efficient approach with Promise.allSettled
-      console.log('Loading strip images');
-      const imagePromises = stripPhotos.map(
+      const imagePromises = currentStripPhotos.map(
         (src) =>
           new Promise<HTMLImageElement>((resolve, reject) => {
             const img = new Image();
@@ -575,8 +533,6 @@ export default function PhotoBooth() {
             result.status === 'fulfilled',
         )
         .map((result) => result.value);
-
-      console.log(`Loaded ${images.length}/${requiredPhotoCount} images successfully`);
 
       // Handle insufficient images
       if (images.length < Math.ceil(requiredPhotoCount * 0.75)) {
@@ -785,7 +741,6 @@ export default function PhotoBooth() {
       const timestamp = new Date().toLocaleDateString();
       ctx.fillText(`Photo Booth - ${timestamp}`, borderWidth + 5, canvasHeight - 10);
 
-      console.log('Photo strip created successfully');
       return canvas.toDataURL('image/jpeg', 0.85); // Use JPEG for better performance
     } catch (error) {
       console.error('Error creating photo strip:', error);
@@ -798,87 +753,21 @@ export default function PhotoBooth() {
     }
   }, [stripPhotos, selectedTemplate]);
 
-  // Updated startCountdown function to only take a single photo
-  const startCountdown = useCallback(() => {
-    // Stop any active timers first
-    if (isTimerActive) {
-      setIsTimerActive(false);
-    }
-
-    // Clean state
-    setIsStripMode(true);
-    setIsSinglePhotoMode(true);
-    setStripPhotos([]);
-    stripPhotosRef.current = [];
-    setCurrentStripPhotoIndex(0);
-    currentPhotoIndexRef.current = 0;
-    setIsProcessingStrip(false);
-    isProcessingRef.current = false;
-
-    // Check camera is ready before starting
-    if (videoRef.current && videoRef.current.srcObject) {
-      setTimeout(() => {
-        setIsCountdownActive(true);
-        console.log('Countdown started for single photo');
-      }, 300);
-    } else {
-      // Try to restart camera if not ready
-      console.log('Camera not ready, attempting to restart');
-      const restartCamera = async () => {
-        try {
-          const mediaStream = await navigator.mediaDevices.getUserMedia({
-            video: { facingMode: 'user' },
-            audio: false,
-          });
-
-          if (videoRef.current) {
-            if (cameraStreamRef.current) {
-              cameraStreamRef.current.getTracks().forEach((track) => track.stop());
-            }
-
-            cameraStreamRef.current = mediaStream;
-            videoRef.current.srcObject = mediaStream;
-            setStream(mediaStream);
-
-            // Start countdown after camera is ready
-            setTimeout(() => {
-              setIsCountdownActive(true);
-              console.log('Countdown started after camera restart');
-            }, 500);
-          }
-        } catch (err) {
-          console.error('Failed to restart camera:', err);
-          toast({
-            title: 'Camera error',
-            description: 'Failed to restart camera. Please refresh the page.',
-            variant: 'destructive',
-          });
-        }
-      };
-
-      restartCamera();
-    }
-  }, [isTimerActive]);
-
   // Replace the startTimedCapture function:
   const startTimedCapture = useCallback(() => {
     // Reset all state for a fresh start
     setIsStripMode(true);
-    setIsSinglePhotoMode(false);
     setStripPhotos([]);
     stripPhotosRef.current = [];
     setCurrentStripPhotoIndex(0);
     currentPhotoIndexRef.current = 0;
     setIsProcessingStrip(false);
     isProcessingRef.current = false;
-
-    console.log('Starting timed capture sequence');
 
     // Small delay before starting the timer to ensure clean state
     setTimeout(() => {
       setIsTimerActive(true);
       isTimerActiveRef.current = true;
-      console.log('Timer activated');
     }, 200);
 
     const template = templates.find((t) => t.id === selectedTemplate) || templates[0];
@@ -891,8 +780,6 @@ export default function PhotoBooth() {
 
   // Separate function to handle strip completion
   const finishStripCapture = useCallback(() => {
-    console.log('Finishing strip capture');
-
     // Stop the timer first
     setIsTimerActive(false);
     isTimerActiveRef.current = false;
@@ -905,7 +792,6 @@ export default function PhotoBooth() {
     // Process images in the background with a timeout to ensure UI updates
     setTimeout(async () => {
       try {
-        console.log('Processing images for strip...');
         // Preload all images to ensure they're ready
         const preloadPromises = stripPhotosRef.current.map(
           (src) =>
@@ -918,12 +804,14 @@ export default function PhotoBooth() {
         );
 
         await Promise.allSettled(preloadPromises);
-        console.log('Images preloaded');
 
         // Create the strip
         const stripImage = await createPhotoStrip();
 
         if (stripImage) {
+          // Set the strip image as the captured image for editing
+          setCapturedImage(stripImage);
+
           // Save to gallery automatically
           const newPhoto: GalleryPhoto = {
             id: uuidv4(),
@@ -939,12 +827,13 @@ export default function PhotoBooth() {
 
           toast({
             title: 'Strip complete!',
-            description: 'Your photo strip is ready and saved to gallery.',
+            description: 'Your photo strip is ready! You can now edit it or view the final result.',
           });
         }
 
-        // Show the strip when ready
-        setActiveTab('strip');
+        // Show the preview/edit tab when ready so user can add stickers
+        setActiveTab('preview');
+        // Don't clear stickers here - let users add them to the strip
         setIsProcessingStrip(false);
         isProcessingRef.current = false;
       } catch (error) {
@@ -962,20 +851,6 @@ export default function PhotoBooth() {
 
   // Replace the handleTimerComplete function:
   const handleTimerComplete = useCallback(() => {
-    // For single photo mode (countdown strip), capture one photo and finish
-    if (isSinglePhotoMode) {
-      console.log('Single photo mode: capturing one photo');
-      captureSingleCountdownPhoto();
-      return;
-    }
-
-    // For multi-photo mode (timed strip)
-    console.log(
-      `Timer complete, capturing photo ${currentPhotoIndexRef.current + 1}/${
-        totalPhotosNeededRef.current
-      }`,
-    );
-
     // Take a photo
     captureStripPhoto();
 
@@ -985,10 +860,7 @@ export default function PhotoBooth() {
       const photosCount = stripPhotosRef.current.length;
       const requiredPhotos = totalPhotosNeededRef.current;
 
-      console.log(`After capture: index=${currentIndex}, photos=${photosCount}/${requiredPhotos}`);
-
       if (photosCount >= requiredPhotos) {
-        console.log('All photos taken, finishing strip capture');
         // Schedule finishStripCapture with a delay
         if (finishTimeoutRef.current) {
           clearTimeout(finishTimeoutRef.current);
@@ -997,18 +869,15 @@ export default function PhotoBooth() {
         finishTimeoutRef.current = setTimeout(() => {
           finishStripCapture();
         }, 300);
-      } else {
-        console.log(`Continuing timer, photo ${photosCount}/${requiredPhotos} taken`);
-        // Timer continues automatically in TimerIndicator
       }
     }, 100);
-  }, [captureStripPhoto, finishStripCapture, captureSingleCountdownPhoto, isSinglePhotoMode]);
+  }, [captureStripPhoto, finishStripCapture, captureSingleCountdownPhoto]);
 
   const downloadStrip = useCallback(async () => {
     if (isDownloading) return;
 
     const template = templates.find((t) => t.id === selectedTemplate) || templates[0];
-    if (stripPhotos.length !== template.photoCount) return;
+    if (stripPhotosRef.current.length !== template.photoCount) return;
 
     setIsDownloading(true);
 
@@ -1057,14 +926,8 @@ export default function PhotoBooth() {
 
   // Updated to handle single photo mode
   const handleCountdownComplete = useCallback(() => {
-    if (isSinglePhotoMode) {
-      // For countdown strip, just take a single photo
-      captureSingleCountdownPhoto();
-    } else {
-      // For timed strip, start the sequence
-      startTimedCapture();
-    }
-  }, [startTimedCapture, captureSingleCountdownPhoto, isSinglePhotoMode]);
+    startTimedCapture();
+  }, [startTimedCapture]);
 
   return (
     <Card className='w-full max-w-3xl shadow-lg mx-auto'>
@@ -1154,26 +1017,22 @@ export default function PhotoBooth() {
           </TabsContent>
 
           <TabsContent value='preview' className='mt-0'>
+            <div className='space-y-4 sm:space-y-6'></div>
             {capturedImage && (
               <div className='space-y-3 sm:space-y-4'>
-                <div className='relative aspect-video bg-black rounded-lg overflow-hidden'>
-                  <div className='relative w-full h-full'>
-                    <img
-                      src={capturedImage || '/placeholder.svg'}
-                      alt='Captured'
-                      className='absolute inset-0 w-full h-full object-cover'
+                <div className='relative w-full h-full'>
+                  <PhotoStrip photos={stripPhotos} />
+
+                  {appliedStickers.map((sticker) => (
+                    <DraggableSticker
+                      key={sticker.id}
+                      id={sticker.id}
+                      src={sticker.src}
+                      name={sticker.name}
+                      onRemove={removeSticker}
+                      initialPosition={sticker.position}
                     />
-                    {appliedStickers.map((sticker) => (
-                      <DraggableSticker
-                        key={sticker.id}
-                        id={sticker.id}
-                        src={sticker.src}
-                        name={sticker.name}
-                        onRemove={removeSticker}
-                        initialPosition={sticker.position}
-                      />
-                    ))}
-                  </div>
+                  ))}
                 </div>
 
                 <div className='space-y-3 sm:space-y-4'>
@@ -1211,6 +1070,17 @@ export default function PhotoBooth() {
                     <Download className='mr-2 h-4 w-4 sm:h-5 sm:w-5' />
                     {isDownloading ? t.downloading : t.download}
                   </Button>
+
+                  {stripPhotos.length === totalPhotosNeeded && (
+                    <Button
+                      onClick={() => setActiveTab('strip')}
+                      size='lg'
+                      variant='outline'
+                      className='w-full sm:w-auto text-sm sm:text-base'>
+                      <Film className='mr-2 h-4 w-4 sm:h-5 sm:w-5' />
+                      {t.view} {t.strip}
+                    </Button>
+                  )}
                 </div>
               </div>
             )}
@@ -1218,7 +1088,29 @@ export default function PhotoBooth() {
 
           <TabsContent value='strip' className='mt-0'>
             <div className='space-y-4 sm:space-y-6'>
-              <PhotoStrip photos={stripPhotos} onReset={resetStrip} onDownload={downloadStrip} />
+              <PhotoStrip photos={stripPhotos} />
+
+              <div className='space-y-4 sm:space-y-6'>
+                <div className='flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-4 justify-center'>
+                  <Button
+                    onClick={resetPhoto}
+                    variant='outline'
+                    size='lg'
+                    className='w-full sm:w-auto text-sm sm:text-base'>
+                    <RefreshCw className='mr-2 h-4 w-4 sm:h-5 sm:w-5' />
+                    {t.takeNewPhoto}
+                  </Button>
+
+                  <Button
+                    onClick={downloadPhoto}
+                    size='lg'
+                    className='bg-pink-500 hover:bg-pink-600 w-full sm:w-auto text-sm sm:text-base'
+                    disabled={isSaving}>
+                    <ImageIcon className='mr-2 h-4 w-4 sm:h-5 sm:w-5' />
+                    {t.downloadStrip}
+                  </Button>
+                </div>
+              </div>
             </div>
           </TabsContent>
 

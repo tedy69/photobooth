@@ -6,12 +6,10 @@ import { useRef, useEffect, useState } from 'react';
 import { useLanguage } from '@/hooks/use-language';
 
 interface PhotoStripProps {
-  photos: string[];
-  onReset: () => void;
-  onDownload: () => void;
+  readonly photos: readonly string[];
 }
 
-export default function PhotoStrip({ photos, onReset, onDownload }: PhotoStripProps) {
+export default function PhotoStrip({ photos }: PhotoStripProps) {
   const { t } = useLanguage();
   const stripRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -108,26 +106,6 @@ export default function PhotoStrip({ photos, onReset, onDownload }: PhotoStripPr
           </div>
         </div>
       )}
-
-      <div className='flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto'>
-        <Button
-          onClick={onReset}
-          variant='outline'
-          size='lg'
-          className='w-full sm:w-auto text-sm sm:text-base'>
-          <RefreshCw className='mr-2 h-4 w-4 sm:h-5 sm:w-5' />
-          {t.takeNewStrip}
-        </Button>
-
-        <Button
-          onClick={onDownload}
-          size='lg'
-          className='bg-pink-500 hover:bg-pink-600 w-full sm:w-auto text-sm sm:text-base'
-          disabled={isLoading}>
-          <Download className='mr-2 h-4 w-4 sm:h-5 sm:w-5' />
-          {t.downloadStrip}
-        </Button>
-      </div>
     </div>
   );
 }
