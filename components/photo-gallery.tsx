@@ -37,8 +37,8 @@ export default function PhotoGallery({ photos, onDeletePhoto }: PhotoGalleryProp
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    } catch (error) {
-      console.error('Error downloading photo:', error);
+    } catch {
+      // Failed to download photo
     } finally {
       setIsDownloading(null);
     }

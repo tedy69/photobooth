@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useLanguage } from '@/hooks/use-language';
 
 export default function PrivacyPage() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   return (
     <div className='container mx-auto px-4 py-8 max-w-4xl'>
@@ -26,14 +26,10 @@ export default function PrivacyPage() {
         <Card>
           <CardHeader>
             <CardTitle>{t.privacyInfoCollection}</CardTitle>
-            <CardDescription>
-              {t.privacyIntro}
-            </CardDescription>
+            <CardDescription>{t.privacyIntro}</CardDescription>
           </CardHeader>
           <CardContent className='space-y-4'>
-            <p className='text-gray-700'>
-              {t.privacyInfoCollectionText}
-            </p>
+            <p className='text-gray-700'>{t.privacyInfoCollectionText}</p>
           </CardContent>
         </Card>
 
@@ -42,9 +38,7 @@ export default function PrivacyPage() {
             <CardTitle>{t.privacyInfoUse}</CardTitle>
           </CardHeader>
           <CardContent className='space-y-4'>
-            <p className='text-gray-700'>
-              {t.privacyInfoUseText}
-            </p>
+            <p className='text-gray-700'>{t.privacyInfoUseText}</p>
           </CardContent>
         </Card>
 
@@ -53,9 +47,7 @@ export default function PrivacyPage() {
             <CardTitle>{t.privacyDataStorage}</CardTitle>
           </CardHeader>
           <CardContent className='space-y-4'>
-            <p className='text-gray-700'>
-              {t.privacyDataStorageText}
-            </p>
+            <p className='text-gray-700'>{t.privacyDataStorageText}</p>
           </CardContent>
         </Card>
 
@@ -64,9 +56,7 @@ export default function PrivacyPage() {
             <CardTitle>{t.privacyThirdParty}</CardTitle>
           </CardHeader>
           <CardContent className='space-y-4'>
-            <p className='text-gray-700'>
-              {t.privacyThirdPartyText}
-            </p>
+            <p className='text-gray-700'>{t.privacyThirdPartyText}</p>
           </CardContent>
         </Card>
 
@@ -75,9 +65,7 @@ export default function PrivacyPage() {
             <CardTitle>{t.privacyUserRights}</CardTitle>
           </CardHeader>
           <CardContent className='space-y-4'>
-            <p className='text-gray-700'>
-              {t.privacyUserRightsText}
-            </p>
+            <p className='text-gray-700'>{t.privacyUserRightsText}</p>
           </CardContent>
         </Card>
 
@@ -86,9 +74,7 @@ export default function PrivacyPage() {
             <CardTitle>{t.privacyChanges}</CardTitle>
           </CardHeader>
           <CardContent className='space-y-4'>
-            <p className='text-gray-700'>
-              {t.privacyChangesText}
-            </p>
+            <p className='text-gray-700'>{t.privacyChangesText}</p>
           </CardContent>
         </Card>
 
@@ -97,9 +83,7 @@ export default function PrivacyPage() {
             <CardTitle>{t.privacyContact}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className='text-gray-700'>
-              {t.privacyContactText}
-            </p>
+            <p className='text-gray-700'>{t.privacyContactText}</p>
           </CardContent>
         </Card>
       </div>

@@ -60,9 +60,7 @@ export default function SupportPage() {
       } else {
         throw new Error('API submission failed');
       }
-    } catch (error) {
-      console.error('API submission error:', error);
-
+    } catch {
       // Fallback to mailto
       const mailtoLink = `mailto:${t.directEmail}?subject=${encodeURIComponent(
         formData.subject,

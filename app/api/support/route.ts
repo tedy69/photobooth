@@ -21,7 +21,6 @@ export async function POST(request: NextRequest) {
     const supportEmail = process.env.SUPPORT_EMAIL ?? 'gmail@tedyfazrin.com';
 
     if (!accessKey) {
-      console.error('WEB3FORMS_ACCESS_KEY is not configured');
       return NextResponse.json({ error: 'Email service not configured' }, { status: 500 });
     }
 
@@ -77,8 +76,7 @@ User Agent: ${request.headers.get('user-agent')}
       success: true,
       message: 'Email sent successfully',
     });
-  } catch (error) {
-    console.error('Support form submission error:', error);
+  } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

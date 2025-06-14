@@ -37,6 +37,7 @@ export const zh: Translations = {
   timedCaptureStarted: '张照片，每5秒一张。',
   photos: '张',
   photo: '张',
+  backgroundsFrames: '背景和边框',
 
   // Navigation
   backToPhotoBooth: '返回拍照亭',
@@ -126,4 +127,16 @@ export const zh: Translations = {
   termsGoverningText: '这些条款和条件受适用法律管辖和解释。',
   termsContactInfo: '联系信息',
   termsContactInfoText: '如果您对这些服务条款有任何问题，请通过我们的支持页面联系我们。',
+
+  // Missing translations
+  stripCompleteEdit: '照片条完成！点击编辑或下载。',
+  preview: '预览',
+  retake: '重拍',
+  retryCamera: '重试相机',
+  capturing: '拍摄中...',
+  clearStickers: '清除贴纸',
+  noPhotoTaken: '未拍摄照片',
+  takePhotoFirst: '请先拍照',
+  clearStrip: '清除照片条',
+  addToStrip: '添加到照片条',
 };

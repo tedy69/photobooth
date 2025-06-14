@@ -138,4 +138,17 @@ export const fr: Translations = {
   termsContactInfo: 'Informations de contact',
   termsContactInfoText:
     'Si vous avez des questions concernant ces conditions, veuillez nous contacter à support@photobooth.app.',
+
+  // Missing translations
+  stripCompleteEdit: 'Modifier la bande',
+  preview: 'Aperçu',
+  retake: 'Reprendre',
+  retryCamera: 'Réessayer la caméra',
+  capturing: 'Capture en cours...',
+  clearStickers: 'Effacer les autocollants',
+  noPhotoTaken: 'Aucune photo prise',
+  takePhotoFirst: "Prenez d'abord une photo",
+  clearStrip: 'Effacer la bande',
+  addToStrip: 'Ajouter à la bande',
+  backgroundsFrames: 'Arrière-plans et Cadres',
 };

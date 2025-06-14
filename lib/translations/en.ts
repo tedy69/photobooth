@@ -29,6 +29,7 @@ export const en: Translations = {
   nextPhotoIn: 'Next photo in',
   photoComplete: 'Photo complete!',
   stripComplete: 'Strip complete!',
+  stripCompleteEdit: 'Strip complete! Ready for editing.',
   errorTitle: 'Error',
   errorDescription: 'There was a problem. Please try again.',
   cameraError: 'Unable to access camera. Please make sure you have granted camera permissions.',
@@ -38,6 +39,18 @@ export const en: Translations = {
   timedCaptureStarted: 'photos, one every 5 seconds.',
   photos: 'photos',
   photo: 'photo',
+  backgroundsFrames: 'Backgrounds & Frames',
+
+  // Additional UI labels
+  preview: 'Preview',
+  retake: 'Retake',
+  retryCamera: 'Retry Camera',
+  capturing: 'Capturing...',
+  clearStickers: 'Clear Stickers',
+  noPhotoTaken: 'No photo taken',
+  takePhotoFirst: 'Take a photo first',
+  clearStrip: 'Clear Strip',
+  addToStrip: 'Add to Strip',
 
   // Navigation
   backToPhotoBooth: 'Back to Photo Booth',

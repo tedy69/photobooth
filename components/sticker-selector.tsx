@@ -1,8 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { Sticker } from '@/lib/frames';
 import { useCallback, useState, useMemo, useRef, useEffect } from 'react';
 

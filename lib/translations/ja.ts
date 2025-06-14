@@ -38,6 +38,7 @@ export const ja: Translations = {
   timedCaptureStarted: '枚の写真、5秒ごとに1枚。',
   photos: '枚',
   photo: '枚',
+  backgroundsFrames: '背景とフレーム',
 
   // Navigation
   backToPhotoBooth: 'フォトブースに戻る',
@@ -137,4 +138,16 @@ export const ja: Translations = {
   termsContactInfo: '連絡先情報',
   termsContactInfoText:
     'この利用規約についてご質問がございましたら、サポートページからお問い合わせください。',
+
+  // Missing translations
+  stripCompleteEdit: 'ストリップを編集',
+  preview: 'プレビュー',
+  retake: '撮り直し',
+  retryCamera: 'カメラを再試行',
+  capturing: '撮影中',
+  clearStickers: 'ステッカーをクリア',
+  noPhotoTaken: '写真が撮影されていません',
+  takePhotoFirst: '最初に写真を撮ってください',
+  clearStrip: 'ストリップをクリア',
+  addToStrip: 'ストリップに追加',
 };

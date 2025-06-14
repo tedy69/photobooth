@@ -1,15 +1,14 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Download, RefreshCw } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
 import { useLanguage } from '@/hooks/use-language';
 
 interface PhotoStripProps {
   readonly photos: readonly string[];
+  readonly selectedTemplate?: string;
 }
 
-export default function PhotoStrip({ photos }: PhotoStripProps) {
+export default function PhotoStrip({ photos, selectedTemplate = '4x1' }: PhotoStripProps) {
   const { t } = useLanguage();
   const stripRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -65,38 +64,94 @@ export default function PhotoStrip({ photos }: PhotoStripProps) {
       ) : (
         <div
           ref={stripRef}
-          className='bg-white p-2 sm:p-4 shadow-lg rounded-md max-w-full overflow-auto'>
+          className='bg-white p-2 sm:p-4 shadow-lg rounded-md max-w-sm mx-auto overflow-auto'>
           <div className='border-2 sm:border-4 border-black p-1 sm:p-2 bg-white'>
-            {photos.length === 1 ? (
-              // Single photo layout with border
-              <div className='w-full border border-gray-700 sm:border-2'>
+            {selectedTemplate === '1x1' ? (
+              // Single photo layout
+              <div className='w-full border border-gray-700 sm:border-2 aspect-square'>
                 <img
                   src={photos[0] || '/placeholder.svg'}
-                  alt='Photo'
-                  className='w-full h-auto object-cover'
+                  alt='Captured moment'
+                  className='w-full h-full object-cover'
                 />
               </div>
-            ) : photos.length <= 3 && photos.length > 1 ? (
-              // Vertical strip layout for 2-3 photos with borders
-              <div className='flex flex-col gap-1 sm:gap-2'>
-                {photos.map((photo, index) => (
-                  <div key={index} className='w-full border border-gray-700 sm:border-2'>
+            ) : selectedTemplate === '4x1' ? (
+              // Vertical strip layout for 4 photos
+              <div className='flex flex-col gap-1 sm:gap-2 aspect-[1/3]'>
+                {photos.slice(0, 4).map((photo, index) => (
+                  <div key={`photo-${index}`} className='flex-1 border border-gray-700 sm:border-2'>
                     <img
                       src={photo || '/placeholder.svg'}
-                      alt={`Strip photo ${index + 1}`}
-                      className='w-full h-auto object-cover'
+                      alt={`Moment ${index + 1}`}
+                      className='w-full h-full object-cover'
                     />
                   </div>
                 ))}
               </div>
-            ) : (
-              // Grid layout for 4+ photos with borders
-              <div className='grid grid-cols-2 gap-1 sm:gap-2'>
-                {photos.map((photo, index) => (
-                  <div key={index} className='w-full border border-gray-700 sm:border-2'>
+            ) : selectedTemplate === '3x1' ? (
+              // Vertical strip layout for 3 photos
+              <div className='flex flex-col gap-1 sm:gap-2 aspect-[1/2.25]'>
+                {photos.slice(0, 3).map((photo, index) => (
+                  <div key={`photo-${index}`} className='flex-1 border border-gray-700 sm:border-2'>
                     <img
                       src={photo || '/placeholder.svg'}
-                      alt={`Strip photo ${index + 1}`}
+                      alt={`Moment ${index + 1}`}
+                      className='w-full h-full object-cover'
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : selectedTemplate === '2x2' ? (
+              // 2x2 grid layout
+              <div className='grid grid-cols-2 gap-1 sm:gap-2 aspect-square'>
+                {photos.slice(0, 4).map((photo, index) => (
+                  <div
+                    key={`photo-${index}`}
+                    className='border border-gray-700 sm:border-2 aspect-square'>
+                    <img
+                      src={photo || '/placeholder.svg'}
+                      alt={`Moment ${index + 1}`}
+                      className='w-full h-full object-cover'
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : selectedTemplate === '3x3' ? (
+              // 3x3 layout (triangular arrangement)
+              <div className='flex flex-col gap-1 sm:gap-2 aspect-square'>
+                {/* Top row - single photo centered */}
+                <div className='flex justify-center flex-1'>
+                  <div className='w-1/2 border border-gray-700 sm:border-2 aspect-square'>
+                    <img
+                      src={photos[0] || '/placeholder.svg'}
+                      alt='Moment 1'
+                      className='w-full h-full object-cover'
+                    />
+                  </div>
+                </div>
+                {/* Bottom row - two photos */}
+                <div className='grid grid-cols-2 gap-1 sm:gap-2 flex-1'>
+                  {photos.slice(1, 3).map((photo, index) => (
+                    <div
+                      key={`photo-${index + 1}`}
+                      className='border border-gray-700 sm:border-2 aspect-square'>
+                      <img
+                        src={photo || '/placeholder.svg'}
+                        alt={`Moment ${index + 2}`}
+                        className='w-full h-full object-cover'
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              // Default vertical layout
+              <div className='flex flex-col gap-1 sm:gap-2'>
+                {photos.map((photo, index) => (
+                  <div key={`photo-${index}`} className='w-full border border-gray-700 sm:border-2'>
+                    <img
+                      src={photo || '/placeholder.svg'}
+                      alt={`Moment ${index + 1}`}
                       className='w-full h-auto object-cover'
                     />
                   </div>

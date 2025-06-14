@@ -39,6 +39,7 @@ export const de: Translations = {
   timedCaptureStarted: 'Fotos, eins alle 5 Sekunden.',
   photos: 'Fotos',
   photo: 'Foto',
+  backgroundsFrames: 'Hintergründe & Rahmen',
 
   // Navigation
   backToPhotoBooth: 'Zurück zur Fotobox',
@@ -140,4 +141,16 @@ export const de: Translations = {
   termsContactInfo: 'Kontaktinformationen',
   termsContactInfoText:
     'Wenn Sie Fragen zu diesen Bedingungen haben, kontaktieren Sie uns bitte unter support@photobooth.app.',
+
+  // Missing properties
+  stripCompleteEdit: 'Streifen bearbeiten',
+  preview: 'Vorschau',
+  retake: 'Wiederholen',
+  retryCamera: 'Kamera erneut versuchen',
+  capturing: 'Aufnahme läuft...',
+  clearStickers: 'Aufkleber entfernen',
+  noPhotoTaken: 'Kein Foto aufgenommen',
+  takePhotoFirst: 'Nehmen Sie zuerst ein Foto auf',
+  clearStrip: 'Streifen löschen',
+  addToStrip: 'Zum Streifen hinzufügen',
 };

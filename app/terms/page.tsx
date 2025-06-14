@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useLanguage } from '@/hooks/use-language';
 
 export default function TermsPage() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   return (
     <div className='container mx-auto px-4 py-8 max-w-4xl'>
@@ -26,14 +26,10 @@ export default function TermsPage() {
         <Card>
           <CardHeader>
             <CardTitle>{t.termsAcceptance}</CardTitle>
-            <CardDescription>
-              {t.termsIntro}
-            </CardDescription>
+            <CardDescription>{t.termsIntro}</CardDescription>
           </CardHeader>
           <CardContent className='space-y-4'>
-            <p className='text-gray-700'>
-              {t.termsAcceptanceText}
-            </p>
+            <p className='text-gray-700'>{t.termsAcceptanceText}</p>
           </CardContent>
         </Card>
 
@@ -42,9 +38,7 @@ export default function TermsPage() {
             <CardTitle>{t.termsUse}</CardTitle>
           </CardHeader>
           <CardContent className='space-y-4'>
-            <p className='text-gray-700'>
-              {t.termsUseText}
-            </p>
+            <p className='text-gray-700'>{t.termsUseText}</p>
           </CardContent>
         </Card>
 
@@ -53,9 +47,7 @@ export default function TermsPage() {
             <CardTitle>{t.termsContent}</CardTitle>
           </CardHeader>
           <CardContent className='space-y-4'>
-            <p className='text-gray-700'>
-              {t.termsContentText}
-            </p>
+            <p className='text-gray-700'>{t.termsContentText}</p>
           </CardContent>
         </Card>
 
@@ -64,9 +56,7 @@ export default function TermsPage() {
             <CardTitle>{t.termsPrivacy}</CardTitle>
           </CardHeader>
           <CardContent className='space-y-4'>
-            <p className='text-gray-700'>
-              {t.termsPrivacyText}
-            </p>
+            <p className='text-gray-700'>{t.termsPrivacyText}</p>
           </CardContent>
         </Card>
 
@@ -75,9 +65,7 @@ export default function TermsPage() {
             <CardTitle>{t.termsLimitations}</CardTitle>
           </CardHeader>
           <CardContent className='space-y-4'>
-            <p className='text-gray-700'>
-              {t.termsLimitationsText}
-            </p>
+            <p className='text-gray-700'>{t.termsLimitationsText}</p>
           </CardContent>
         </Card>
 
@@ -86,9 +74,7 @@ export default function TermsPage() {
             <CardTitle>{t.termsModifications}</CardTitle>
           </CardHeader>
           <CardContent className='space-y-4'>
-            <p className='text-gray-700'>
-              {t.termsModificationsText}
-            </p>
+            <p className='text-gray-700'>{t.termsModificationsText}</p>
           </CardContent>
         </Card>
 
@@ -97,9 +83,7 @@ export default function TermsPage() {
             <CardTitle>{t.termsGoverning}</CardTitle>
           </CardHeader>
           <CardContent className='space-y-4'>
-            <p className='text-gray-700'>
-              {t.termsGoverningText}
-            </p>
+            <p className='text-gray-700'>{t.termsGoverningText}</p>
           </CardContent>
         </Card>
 
@@ -108,9 +92,7 @@ export default function TermsPage() {
             <CardTitle>{t.termsContactInfo}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className='text-gray-700'>
-              {t.termsContactInfoText}
-            </p>
+            <p className='text-gray-700'>{t.termsContactInfoText}</p>
           </CardContent>
         </Card>
       </div>

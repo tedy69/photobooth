@@ -4,9 +4,8 @@ import { Heart, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { useLanguage } from '@/hooks/use-language';
 
-
 export default function Footer() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   return (
     <footer className='bg-gray-900 text-white mt-auto'>

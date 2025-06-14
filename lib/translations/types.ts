@@ -27,6 +27,7 @@ export interface Translations {
   nextPhotoIn: string;
   photoComplete: string;
   stripComplete: string;
+  stripCompleteEdit: string;
   errorTitle: string;
   errorDescription: string;
   cameraError: string;
@@ -36,6 +37,18 @@ export interface Translations {
   timedCaptureStarted: string;
   photos: string;
   photo: string;
+  backgroundsFrames: string;
+
+  // Additional UI labels
+  preview: string;
+  retake: string;
+  retryCamera: string;
+  capturing: string;
+  clearStickers: string;
+  noPhotoTaken: string;
+  takePhotoFirst: string;
+  clearStrip: string;
+  addToStrip: string;
 
   // Navigation
   backToPhotoBooth: string;
