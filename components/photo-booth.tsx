@@ -9,66 +9,20 @@ import StickerSelector from './sticker-selector';
 import BackgroundFrameSelector from './background-frame-selector';
 import PhotoGallery from './photo-gallery';
 import TimerIndicator from './timer-indicator';
-import TemplateSelector, { type Template } from './template-selector';
+import TemplateSelector from './template-selector';
 import PhotoStrip from './photo-strip';
 import { stickers } from '@/lib/frames';
 import { backgrounds } from '@/lib/backgrounds';
 import { toast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/use-language';
 import { downloadImage } from '@/lib/composite-image-utils';
+import { createPhotoStrip } from '@/lib/photo-strip-utils';
 
 // Import our custom hooks
 import { useCamera } from '@/hooks/use-camera';
 import { useFabricStickers } from '@/hooks/use-fabric-stickers';
 import { usePhotoGallery } from '@/hooks/use-photo-gallery';
-
-// Templates configuration
-const templates: Template[] = [
-  {
-    id: '4x1',
-    name: 'Classic Strip',
-    size: '2" × 6"',
-    aspectRatio: 1 / 3,
-    orientation: 'portrait',
-    photoCount: 4,
-    layout: 'vertical',
-    hasBorders: true,
-    flattened: true,
-  },
-  {
-    id: '3x1',
-    name: 'Triple Strip',
-    size: '2" × 4.5"',
-    aspectRatio: 1 / 2.25,
-    orientation: 'portrait',
-    photoCount: 3,
-    layout: 'vertical',
-    hasBorders: true,
-    flattened: true,
-  },
-  {
-    id: '2x2',
-    name: 'Grid',
-    size: '4" × 4"',
-    aspectRatio: 1,
-    orientation: 'portrait',
-    photoCount: 4,
-    layout: 'grid',
-    hasBorders: true,
-    flattened: true,
-  },
-  {
-    id: '1x1',
-    name: 'Single Photo',
-    size: '4" × 6"',
-    aspectRatio: 2 / 3,
-    orientation: 'landscape',
-    photoCount: 1,
-    layout: 'single',
-    hasBorders: true,
-    flattened: true,
-  },
-];
+import { templates } from '@/lib/templates';
 
 export default function PhotoBooth() {
   const { t } = useLanguage();
@@ -147,6 +101,11 @@ export default function PhotoBooth() {
 
       return () => clearTimeout(timer);
     }
+
+    // If switching away from preview, reset Fabric canvas
+    if (activeTab !== 'preview') {
+      fabricStickers.resetFabricCanvas();
+    }
   }, [activeTab, camera.capturedImage, fabricStickers, reapplyCurrentBackground]);
 
   // Photo strip capture functionality
@@ -161,46 +120,28 @@ export default function PhotoBooth() {
     });
   }, [currentTemplate.photoCount]);
 
-  // Helper function to load an image
-  const loadImage = useCallback((src: string): Promise<HTMLImageElement> => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => resolve(img);
-      img.onerror = reject;
-      img.src = src;
-    });
-  }, []);
-
-  // Create composite strip image for editing
+  // Create composite strip image for editing using the proper layout
   const createCompositeStripImage = useCallback(
     async (photos: string[]) => {
       try {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+        if (photos.length === 0) return null;
 
-        if (!ctx || photos.length === 0) return null;
-
-        // Load all images
-        const imagePromises = photos.map(loadImage);
-        const images = await Promise.all(imagePromises);
-
-        const imgWidth = images[0].width;
-        const imgHeight = images[0].height; // Set canvas dimensions for vertical strip
-        canvas.width = imgWidth;
-        canvas.height = imgHeight * photos.length;
-
-        // Draw images vertically
-        images.forEach((img, i) => {
-          ctx.drawImage(img, 0, i * imgHeight, imgWidth, imgHeight);
+        // Use the proper photo strip creation function that handles different layouts
+        const stripImage = await createPhotoStrip({
+          template: {
+            ...currentTemplate,
+            hasBorders: currentTemplate.hasBorders ?? true, // Ensure hasBorders is boolean
+            flattened: currentTemplate.flattened ?? true, // Ensure flattened is boolean
+          },
+          photos,
         });
 
-        const result = canvas.toDataURL('image/jpeg', 0.8);
-        return result;
+        return stripImage;
       } catch {
         return null;
       }
     },
-    [loadImage],
+    [currentTemplate],
   );
 
   // Unified photo capture handler that waits for the actual captured image
@@ -447,7 +388,7 @@ export default function PhotoBooth() {
 
               <div className='aspect-video bg-black rounded-lg overflow-hidden relative camera-container'>
                 {camera.error ? (
-                  <div className='absolute inset-0 flex items-center justify-center text-white'>
+                  <div className='absolute inset-0 flex items-center justify-center '>
                     <div className='text-center p-4'>
                       <p className='mb-4'>{camera.error}</p>
                       <Button onClick={camera.startCamera} variant='outline'>

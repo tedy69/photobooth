@@ -51,6 +51,15 @@ export function useFabricStickers() {
     }
   }, []);
 
+  const resetFabricCanvas = useCallback(() => {
+    if (fabricCanvasRef.current) {
+        fabricCanvasRef.current.dispose();
+        fabricCanvasRef.current = null;
+        setIsFabricReady(false);
+    }
+  }, []);
+
+
   // Load captured image as background
   const setBackgroundImage = useCallback(
     (capturedImage: string) => {
@@ -463,6 +472,7 @@ export function useFabricStickers() {
     isFabricReady,
     appliedStickers,
     initializeFabricCanvas,
+    resetFabricCanvas,
     setBackgroundImage,
     addSticker,
     removeSticker,

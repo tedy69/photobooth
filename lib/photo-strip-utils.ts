@@ -53,6 +53,11 @@ export function calculateCanvasDimensions(
         width: singleWidth + borderWidth * 2,
         height: singleHeight * 3 + spacing * 2 + borderWidth * 2,
       };
+    case '2x3':
+      return {
+        width: singleWidth * 2 + spacing + borderWidth * 2,
+        height: singleHeight * 3 + spacing * 2 + borderWidth * 2,
+      };
     case '2x2':
       return {
         width: singleWidth * 2 + spacing + borderWidth * 2,
@@ -108,6 +113,20 @@ export function calculateImagePositions(
           top: borderWidth + i * (singleHeight + spacing),
         });
       }
+      break;
+    case '2x3':
+      // 2x3 grid: 2 columns, 3 rows (6 photos total)
+      positions.push(
+        // First row
+        { left: borderWidth, top: borderWidth },
+        { left: borderWidth + singleWidth + spacing, top: borderWidth },
+        // Second row
+        { left: borderWidth, top: borderWidth + singleHeight + spacing },
+        { left: borderWidth + singleWidth + spacing, top: borderWidth + singleHeight + spacing },
+        // Third row
+        { left: borderWidth, top: borderWidth + 2 * (singleHeight + spacing) },
+        { left: borderWidth + singleWidth + spacing, top: borderWidth + 2 * (singleHeight + spacing) },
+      );
       break;
     case '2x2':
       positions.push(

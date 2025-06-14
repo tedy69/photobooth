@@ -59,7 +59,11 @@ export default function TemplateSelector({
               {template.layout === 'grid' && (
                 <div
                   className={`grid ${
-                    template.photoCount === 4 ? 'grid-cols-2' : 'grid-cols-2'
+                    template.photoCount === 4 
+                      ? 'grid-cols-2' 
+                      : template.photoCount === 6 
+                      ? 'grid-cols-2 grid-rows-3' 
+                      : 'grid-cols-2'
                   } gap-1 w-full h-full p-1`}>
                   {Array.from({ length: template.photoCount }).map((_, i) => (
                     <div

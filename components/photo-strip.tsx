@@ -101,6 +101,21 @@ export default function PhotoStrip({ photos, selectedTemplate = '4x1' }: PhotoSt
                   </div>
                 ))}
               </div>
+            ) : selectedTemplate === '2x3' ? (
+              // 2x3 grid layout (2 columns, 3 rows)
+              <div className='grid grid-cols-2 gap-1 sm:gap-2 aspect-[2/3]'>
+                {photos.slice(0, 6).map((photo, index) => (
+                  <div
+                    key={`photo-${index}`}
+                    className='border border-gray-700 sm:border-2 aspect-square'>
+                    <img
+                      src={photo || '/placeholder.svg'}
+                      alt={`Moment ${index + 1}`}
+                      className='w-full h-full object-cover'
+                    />
+                  </div>
+                ))}
+              </div>
             ) : selectedTemplate === '2x2' ? (
               // 2x2 grid layout
               <div className='grid grid-cols-2 gap-1 sm:gap-2 aspect-square'>
