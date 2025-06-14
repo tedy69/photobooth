@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     siteName: 'Photo Booth',
     images: [
       {
-        url: '/og-image.png',
+        url: '/og-image.svg',
         width: 1200,
         height: 630,
         alt: 'Photo Booth App - Capture Amazing Photos',
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     title: 'Photo Booth - Capture & Create Amazing Photos',
     description:
       'Professional photo booth web app with real-time camera capture, fun stickers, and instant downloads.',
-    images: ['/og-image.png'],
+    images: ['/og-image.svg'],
     creator: '@tedyfazrin',
   },
   robots: {
@@ -176,7 +176,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 'Multi-language support',
                 'Professional quality output',
               ],
-              image: 'https://photobooth.tedyfazrin.com/og-image.png',
+              image: 'https://photobooth.tedyfazrin.com/og-image.svg',
               softwareVersion: '1.0.0',
               requirements: 'Modern web browser with camera access',
               browserRequirements: 'HTML5, JavaScript, WebRTC',

@@ -1,10 +1,18 @@
 'use client';
 
 import { useRef, useState, useCallback } from 'react';
-import { Canvas, FabricImage, Rect } from 'fabric';
+import { Canvas, FabricImage } from 'fabric';
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from '@/hooks/use-toast';
 import { type Background, type Frame } from '@/lib/backgrounds';
+import { 
+  type ExtendedFabricObject, 
+  findPhotoImage, 
+  findBackgroundElements, 
+  findFrameElements, 
+  findStickerElements,
+  findStickerById
+} from '@/lib/fabric-utils';
 
 interface FabricImageWithName extends FabricImage {
   name?: string;
@@ -155,7 +163,7 @@ export function useFabricStickers() {
           canvas.add(img);
 
           // Ensure stickers remain on top by bringing them to front
-          const stickerObjects = canvas.getObjects().filter((obj) => (obj as any).stickerId);
+          const stickerObjects = findStickerElements(canvas.getObjects());
           stickerObjects.forEach((sticker) => {
             canvas.bringObjectToFront(sticker);
           });
@@ -276,7 +284,7 @@ export function useFabricStickers() {
         });
 
         // Store sticker ID on the fabric object
-        (fabricImg as any).stickerId = newSticker.id;
+        (fabricImg as ExtendedFabricObject).stickerId = newSticker.id;
 
         fabricCanvasRef.current.add(fabricImg);
 
@@ -310,7 +318,7 @@ export function useFabricStickers() {
     if (!fabricCanvasRef.current) return;
 
     const objects = fabricCanvasRef.current.getObjects();
-    const stickerObject = objects.find((obj) => (obj as any).stickerId === stickerId);
+    const stickerObject = findStickerById(objects, stickerId);
 
     if (stickerObject) {
       fabricCanvasRef.current.remove(stickerObject);
@@ -388,12 +396,13 @@ export function useFabricStickers() {
 
       const canvas = fabricCanvasRef.current;
 
-      // Remove existing background rectangle if any
+      // Remove existing background objects if any
       const objects = canvas.getObjects();
-      const existingBg = objects.find((obj) => (obj as any).name === 'background-rect');
-      if (existingBg) {
-        canvas.remove(existingBg);
-      }
+      const existingBgObjects = objects.filter((obj) => 
+        (obj as any).name === 'background-rect' || 
+        (obj as any).name === 'background-pattern'
+      );
+      existingBgObjects.forEach((obj) => canvas.remove(obj));
 
       if (background.type === 'color') {
         // For solid colors, use canvas backgroundColor
@@ -401,40 +410,181 @@ export function useFabricStickers() {
         // Reset background to transparent for color backgrounds
         const bgObjects = objects.filter((obj) => (obj as any).name === 'background-rect');
         bgObjects.forEach((obj) => canvas.remove(obj));
-      } else if (background.type === 'gradient' || background.type === 'pattern') {
-        // Reset canvas background to transparent for pattern/gradient backgrounds
+      } else if (background.type === 'gradient') {
+        // Reset canvas background to transparent for gradient backgrounds
         canvas.backgroundColor = 'transparent';
 
-        // For gradients and patterns, create a background rectangle
-        const bgRect = new Rect({
-          left: 0,
-          top: 0,
-          width: canvas.width || 400,
-          height: canvas.height || 400,
-          fill: background.value,
-          selectable: false,
-          evented: false,
-          excludeFromExport: false,
-        });
+        // For gradients, we need to create a canvas element with the gradient and use it as an image
+        const canvasWidth = canvas.width || 400;
+        const canvasHeight = canvas.height || 400;
 
-        // Add name property for identification
-        (bgRect as any).name = 'background-rect'; // Add the background rectangle - it will be behind the photo since photo is added later
-        canvas.add(bgRect);
+        // Create a temporary canvas to draw the gradient
+        const tempCanvas = document.createElement('canvas');
+        const tempCtx = tempCanvas.getContext('2d');
+        tempCanvas.width = canvasWidth;
+        tempCanvas.height = canvasHeight;
 
-        // Send background to back and ensure proper layering
-        canvas.sendObjectToBack(bgRect);
+        if (tempCtx) {
+          // Create the gradient on the temporary canvas
+          let gradient;
+          
+          if (background.id === 'sunset') {
+            gradient = tempCtx.createLinearGradient(0, 0, canvasWidth, canvasHeight);
+            gradient.addColorStop(0, '#ff9a9e');
+            gradient.addColorStop(0.5, '#fecfef');
+            gradient.addColorStop(1, '#fecfef');
+          } else if (background.id === 'ocean') {
+            gradient = tempCtx.createLinearGradient(0, 0, canvasWidth, canvasHeight);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+          } else if (background.id === 'rainbow') {
+            gradient = tempCtx.createLinearGradient(0, 0, canvasWidth, canvasHeight);
+            gradient.addColorStop(0, '#ff9a9e');
+            gradient.addColorStop(0.25, '#fecfef');
+            gradient.addColorStop(0.5, '#fecfef');
+            gradient.addColorStop(0.75, '#a8edea');
+            gradient.addColorStop(1, '#fed6e3');
+          } else if (background.id === 'cosmic') {
+            gradient = tempCtx.createLinearGradient(0, 0, canvasWidth, canvasHeight);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+          } else {
+            // Fallback
+            gradient = tempCtx.createLinearGradient(0, 0, canvasWidth, canvasHeight);
+            gradient.addColorStop(0, '#ff9a9e');
+            gradient.addColorStop(1, '#fecfef');
+          }
 
-        // Move photo image to middle layer
-        const photoObj = canvas.getObjects().find((obj) => (obj as any).name === 'photo-image');
-        if (photoObj) {
-          canvas.bringObjectForward(photoObj);
+          // Fill the temporary canvas with the gradient
+          tempCtx.fillStyle = gradient;
+          tempCtx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+          // Convert to data URL and create a Fabric image
+          const gradientDataUrl = tempCanvas.toDataURL('image/png');
+          
+          FabricImage.fromURL(gradientDataUrl, {
+            crossOrigin: 'anonymous',
+          }).then((gradientImg) => {
+            if (!gradientImg || !canvas) return;
+
+            gradientImg.set({
+              left: 0,
+              top: 0,
+              selectable: false,
+              evented: false,
+              excludeFromExport: false,
+            });
+
+            // Add name property for identification
+            (gradientImg as any).name = 'background-rect';
+            canvas.add(gradientImg);
+
+            // Send background to back and ensure proper layering
+            canvas.sendObjectToBack(gradientImg);
+
+            // Move photo image to middle layer
+            const photoObj = canvas.getObjects().find((obj) => (obj as any).name === 'photo-image');
+            if (photoObj) {
+              canvas.bringObjectForward(photoObj);
+            }
+
+            // Ensure stickers remain on top
+            const stickerObjects = canvas.getObjects().filter((obj) => (obj as any).stickerId);
+            stickerObjects.forEach((sticker) => {
+              canvas.bringObjectToFront(sticker);
+            });
+
+            canvas.renderAll();
+          }).catch(() => {
+            // Fallback to solid color if gradient fails
+            canvas.backgroundColor = '#ff9a9e';
+          });
         }
+      } else if (background.type === 'pattern') {
+        // Reset canvas background to transparent for pattern backgrounds
+        canvas.backgroundColor = 'transparent';
 
-        // Ensure stickers remain on top
-        const stickerObjects = canvas.getObjects().filter((obj) => (obj as any).stickerId);
-        stickerObjects.forEach((sticker) => {
-          canvas.bringObjectToFront(sticker);
-        });
+        // Create pattern background using a canvas approach for better rendering
+        const canvasWidth = canvas.width || 400;
+        const canvasHeight = canvas.height || 400;
+
+        // Create a temporary canvas to draw the pattern
+        const tempCanvas = document.createElement('canvas');
+        const tempCtx = tempCanvas.getContext('2d');
+        tempCanvas.width = canvasWidth;
+        tempCanvas.height = canvasHeight;
+
+        if (tempCtx) {
+          if (background.id === 'polka-dots') {
+            // Create polka dots pattern
+            tempCtx.fillStyle = '#ffffff'; // Base color
+            tempCtx.fillRect(0, 0, canvasWidth, canvasHeight);
+            
+            tempCtx.fillStyle = '#fce7f3'; // Dot color
+            const dotSize = 6;
+            const spacing = 20;
+
+            for (let x = 0; x < canvasWidth + spacing; x += spacing) {
+              for (let y = 0; y < canvasHeight + spacing; y += spacing) {
+                tempCtx.beginPath();
+                tempCtx.arc(x, y, dotSize / 2, 0, 2 * Math.PI);
+                tempCtx.fill();
+              }
+            }
+          } else if (background.id === 'stripes') {
+            // Create stripes pattern
+            tempCtx.fillStyle = '#ffffff'; // Base color
+            tempCtx.fillRect(0, 0, canvasWidth, canvasHeight);
+            
+            tempCtx.fillStyle = '#f3e8ff'; // Stripe color
+            const stripeWidth = 20;
+
+            for (let x = 0; x < canvasWidth + stripeWidth; x += stripeWidth * 2) {
+              tempCtx.fillRect(x, 0, stripeWidth, canvasHeight);
+            }
+          }
+
+          // Convert to data URL and create a Fabric image
+          const patternDataUrl = tempCanvas.toDataURL('image/png');
+          
+          FabricImage.fromURL(patternDataUrl, {
+            crossOrigin: 'anonymous',
+          }).then((patternImg) => {
+            if (!patternImg || !canvas) return;
+
+            patternImg.set({
+              left: 0,
+              top: 0,
+              selectable: false,
+              evented: false,
+              excludeFromExport: false,
+            });
+
+            // Add name property for identification
+            (patternImg as any).name = 'background-rect';
+            canvas.add(patternImg);
+
+            // Send background to back and ensure proper layering
+            canvas.sendObjectToBack(patternImg);
+
+            // Move photo image to middle layer
+            const photoObj = canvas.getObjects().find((obj) => (obj as any).name === 'photo-image');
+            if (photoObj) {
+              canvas.bringObjectForward(photoObj);
+            }
+
+            // Ensure stickers remain on top
+            const stickerObjects = canvas.getObjects().filter((obj) => (obj as any).stickerId);
+            stickerObjects.forEach((sticker) => {
+              canvas.bringObjectToFront(sticker);
+            });
+
+            canvas.renderAll();
+          }).catch(() => {
+            // Fallback to solid color if pattern fails
+            canvas.backgroundColor = '#f8fafc';
+          });
+        }
       }
 
       setSelectedBackground(background.id);
@@ -448,20 +598,82 @@ export function useFabricStickers() {
     [refreshPhotoSizing],
   );
 
-  // Apply frame (simplified version)
+  // Apply frame (improved implementation)
   const applyFrame = useCallback(
-    (frame: Frame) => {
+    async (frame: Frame) => {
       if (!fabricCanvasRef.current) return;
+
+      const canvas = fabricCanvasRef.current;
+      
+      // Remove existing frame objects if any
+      const objects = canvas.getObjects();
+      const existingFrameObjects = objects.filter((obj) => (obj as any).name === 'frame-element');
+      existingFrameObjects.forEach((obj) => canvas.remove(obj));
 
       setSelectedFrame(frame.id);
 
-      // Refresh photo sizing since frame changed
-      setTimeout(() => {
-        refreshPhotoSizing();
-      }, 100);
+      // If no frame selected, just refresh sizing and return
+      if (frame.id === 'none' || !frame.src) {
+        setTimeout(() => {
+          refreshPhotoSizing();
+        }, 100);
+        return;
+      }
 
-      // Note: Full frame implementation would require more complex SVG handling
-      // For now, we'll just track the selected frame
+      try {
+        // Load the frame as an image and add it to the canvas
+        const frameImg = await FabricImage.fromURL(frame.src, {
+          crossOrigin: 'anonymous',
+        });
+
+        if (!frameImg) return;
+
+        const canvasWidth = canvas.width || 400;
+        const canvasHeight = canvas.height || 400;
+
+        // Scale frame to canvas size
+        frameImg.scaleToWidth(canvasWidth);
+        frameImg.scaleToHeight(canvasHeight);
+
+        frameImg.set({
+          left: 0,
+          top: 0,
+          selectable: false,
+          evented: false,
+          excludeFromExport: false,
+        });
+
+        // Add name for identification
+        (frameImg as any).name = 'frame-element';
+        
+        canvas.add(frameImg);
+
+        // Ensure frame is on top of background but below stickers
+        const photoObj = canvas.getObjects().find((obj) => (obj as any).name === 'photo-image');
+        if (photoObj) {
+          canvas.bringObjectToFront(frameImg);
+          canvas.bringObjectToFront(photoObj);
+        }
+
+        // Ensure stickers remain on top
+        const stickerObjects = canvas.getObjects().filter((obj) => (obj as any).stickerId);
+        stickerObjects.forEach((sticker) => {
+          canvas.bringObjectToFront(sticker);
+        });
+
+        canvas.renderAll();
+
+        // Refresh photo sizing since frame changed
+        setTimeout(() => {
+          refreshPhotoSizing();
+        }, 100);
+      } catch (error) {
+        console.error('Error loading frame:', error);
+        // Fallback: just refresh sizing
+        setTimeout(() => {
+          refreshPhotoSizing();
+        }, 100);
+      }
     },
     [refreshPhotoSizing],
   );

@@ -447,63 +447,110 @@ export default function PhotoBooth() {
                 <div className='space-y-4'>
                   <div className='flex justify-center'>
                     <div className='relative'>
-                      <canvas
-                        ref={fabricStickers.fabricCanvasElementRef}
-                        className='border border-gray-200 rounded-lg shadow-sm max-w-full'
-                      />
+                      <div className='absolute -inset-4 bg-gradient-to-r from-pink-200 via-purple-200 to-blue-200 rounded-xl blur-lg opacity-30'></div>
+                      <div className='relative bg-white p-2 rounded-xl shadow-xl border border-gray-100'>
+                        <canvas
+                          ref={fabricStickers.fabricCanvasElementRef}
+                          className='border border-gray-200 rounded-lg shadow-sm max-w-full'
+                        />
+                        <div className='absolute top-1 right-1 bg-green-500 w-3 h-3 rounded-full animate-pulse'></div>
+                        <div className='absolute bottom-1 left-1 px-2 py-1 bg-black/70 text-white text-xs rounded-md font-medium'>
+                          LIVE EDIT
+                        </div>
+                      </div>
                     </div>
                   </div>
 
                   {/* Sticker Selector */}
-                  <div>
-                    <h3 className='text-lg font-medium mb-3'>{t.stickers}</h3>
-                    <StickerSelector
-                      stickers={stickers}
-                      onSelectSticker={fabricStickers.addSticker}
-                    />
+                  <div className='relative'>
+                    <div className='absolute inset-0 bg-gradient-to-r from-pink-50 to-purple-50 rounded-lg -z-10'></div>
+                    <div className='border border-pink-200 rounded-lg p-4 bg-white/80 backdrop-blur-sm'>
+                      <div className='flex items-center gap-2 mb-3'>
+                        <div className='w-2 h-2 bg-pink-500 rounded-full animate-pulse'></div>
+                        <h3 className='text-lg font-medium text-gray-800'>
+                          ✨ {t.stickers}
+                        </h3>
+                        <div className='px-2 py-1 bg-pink-100 text-pink-700 text-xs rounded-full font-medium'>
+                          NEW
+                        </div>
+                      </div>
+                      <StickerSelector
+                        stickers={stickers}
+                        onSelectSticker={fabricStickers.addSticker}
+                      />
+                    </div>
                   </div>
 
                   {/* Background & Frame Selector */}
-                  <div>
-                    <h3 className='text-lg font-medium mb-3'>{t.backgroundsFrames}</h3>
-                    <BackgroundFrameSelector
-                      selectedBackground={fabricStickers.selectedBackground}
-                      selectedFrame={fabricStickers.selectedFrame}
-                      onSelectBackground={fabricStickers.applyBackground}
-                      onSelectFrame={fabricStickers.applyFrame}
-                    />
+                  <div className='relative'>
+                    <div className='absolute inset-0 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg -z-10'></div>
+                    <div className='border border-blue-200 rounded-lg p-4 bg-white/80 backdrop-blur-sm'>
+                      <div className='flex items-center gap-2 mb-3'>
+                        <div className='w-2 h-2 bg-blue-500 rounded-full animate-pulse'></div>
+                        <h3 className='text-lg font-medium text-gray-800'>
+                          🎨 {t.backgroundsFrames}
+                        </h3>
+                        <div className='px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium'>
+                          PRO
+                        </div>
+                      </div>
+                      <BackgroundFrameSelector
+                        selectedBackground={fabricStickers.selectedBackground}
+                        selectedFrame={fabricStickers.selectedFrame}
+                        onSelectBackground={fabricStickers.applyBackground}
+                        onSelectFrame={fabricStickers.applyFrame}
+                      />
+                    </div>
                   </div>
 
                   {/* Action Buttons */}
-                  <div className='flex flex-wrap gap-3 justify-center'>
-                    <Button onClick={resetPhoto} variant='outline' size='lg'>
-                      <RefreshCw className='mr-2 h-4 w-4' />
-                      {t.retake}
-                    </Button>
+                  <div className='relative'>
+                    <div className='absolute inset-0 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg -z-10'></div>
+                    <div className='border border-green-200 rounded-lg p-4 bg-white/80 backdrop-blur-sm'>
+                      <div className='flex items-center gap-2 mb-4'>
+                        <div className='w-2 h-2 bg-green-500 rounded-full animate-pulse'></div>
+                        <h3 className='text-lg font-medium text-gray-800'>
+                          🚀 Actions
+                        </h3>
+                      </div>
+                      <div className='flex flex-wrap gap-3 justify-center'>
+                        <Button 
+                          onClick={resetPhoto} 
+                          variant='outline' 
+                          size='lg'
+                          className='border-orange-200 hover:bg-orange-50 hover:border-orange-300 transition-all duration-200'>
+                          <RefreshCw className='mr-2 h-4 w-4' />
+                          {t.retake}
+                        </Button>
 
-                    <Button
-                      onClick={downloadPhoto}
-                      disabled={isDownloading}
-                      size='lg'
-                      variant='secondary'>
-                      <Download className='mr-2 h-4 w-4' />
-                      {isDownloading ? t.downloading : t.download}
-                    </Button>
+                        <Button
+                          onClick={downloadPhoto}
+                          disabled={isDownloading}
+                          size='lg'
+                          className='bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-200'>
+                          <Download className='mr-2 h-4 w-4' />
+                          {isDownloading ? t.downloading : t.download}
+                        </Button>
 
-                    <Button
-                      onClick={savePhotoToGallery}
-                      disabled={gallery.isSaving}
-                      size='lg'
-                      className='bg-pink-500 hover:bg-pink-600'>
-                      <ImageIcon className='mr-2 h-4 w-4' />
-                      {gallery.isSaving ? t.saving : t.saveToGallery}
-                    </Button>
+                        <Button
+                          onClick={savePhotoToGallery}
+                          disabled={gallery.isSaving}
+                          size='lg'
+                          className='bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white shadow-lg hover:shadow-xl transition-all duration-200'>
+                          <ImageIcon className='mr-2 h-4 w-4' />
+                          {gallery.isSaving ? t.saving : t.saveToGallery}
+                        </Button>
 
-                    {fabricStickers.appliedStickers.length > 0 && (
-                      <Button onClick={fabricStickers.clearAllStickers} variant='outline'>
-                        {t.clearStickers}
-                      </Button>
-                    )}
+                        {fabricStickers.appliedStickers.length > 0 && (
+                          <Button 
+                            onClick={fabricStickers.clearAllStickers} 
+                            variant='outline'
+                            className='border-red-200 hover:bg-red-50 hover:border-red-300 transition-all duration-200'>
+                            {t.clearStickers}
+                          </Button>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
               ) : (

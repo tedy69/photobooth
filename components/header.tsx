@@ -3,6 +3,7 @@
 import { useLanguage } from '@/hooks/use-language';
 import LanguageSelector from './language-selector';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Header() {
   const { t } = useLanguage();
@@ -12,7 +13,9 @@ export default function Header() {
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
         <div className='flex items-center justify-between h-16 sm:h-20'>
           {/* Logo and Title */}
-          <div className='flex items-center space-x-3'>
+          <Link 
+            href='/'
+          className='flex items-center space-x-3'>
             <div className='relative'>
               <Image
                 src='/logo.svg'
@@ -31,7 +34,7 @@ export default function Header() {
                 {t.description ?? 'Capture memories with style'}
               </p>
             </div>
-          </div>
+          </Link>
 
           {/* Language Selector */}
           <div className='flex items-center space-x-4'>

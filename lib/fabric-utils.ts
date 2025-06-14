@@ -152,3 +152,47 @@ export function clearStickersFromCanvas(canvas: Canvas): void {
   stickerObjects.forEach((obj) => canvas.remove(obj));
   canvas.renderAll();
 }
+
+// Extended Fabric Object interface to include custom properties
+export interface ExtendedFabricObject extends FabricObject {
+  name?: string;
+  stickerId?: string;
+}
+
+// Type guards and utilities for Fabric.js objects
+export const isPhotoImage = (obj: FabricObject): obj is ExtendedFabricObject => {
+  return (obj as ExtendedFabricObject).name === 'photo-image';
+};
+
+export const isBackgroundElement = (obj: FabricObject): obj is ExtendedFabricObject => {
+  const name = (obj as ExtendedFabricObject).name;
+  return name === 'background-rect' || name === 'background-pattern';
+};
+
+export const isFrameElement = (obj: FabricObject): obj is ExtendedFabricObject => {
+  return (obj as ExtendedFabricObject).name === 'frame-element';
+};
+
+export const isStickerElement = (obj: FabricObject): obj is ExtendedFabricObject => {
+  return !!(obj as ExtendedFabricObject).stickerId;
+};
+
+export const findPhotoImage = (objects: FabricObject[]): ExtendedFabricObject | undefined => {
+  return objects.find(isPhotoImage);
+};
+
+export const findBackgroundElements = (objects: FabricObject[]): ExtendedFabricObject[] => {
+  return objects.filter(isBackgroundElement);
+};
+
+export const findFrameElements = (objects: FabricObject[]): ExtendedFabricObject[] => {
+  return objects.filter(isFrameElement);
+};
+
+export const findStickerElements = (objects: FabricObject[]): ExtendedFabricObject[] => {
+  return objects.filter(isStickerElement);
+};
+
+export const findStickerById = (objects: FabricObject[], stickerId: string): ExtendedFabricObject | undefined => {
+  return objects.find(obj => (obj as ExtendedFabricObject).stickerId === stickerId);
+};
