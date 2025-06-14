@@ -1142,36 +1142,12 @@ export default function PhotoBooth() {
 
               <div className='flex flex-col sm:flex-row flex-wrap justify-center gap-2 sm:gap-3 photo-booth-buttons'>
                 <Button
-                  onClick={capturePhoto}
+                  onClick={startTimedCapture}
                   disabled={!isCameraReady || isStripMode}
                   size='lg'
                   className='bg-pink-500 hover:bg-pink-600 w-full sm:w-auto text-sm sm:text-base'>
                   <Camera className='mr-2 h-4 w-4 sm:h-5 sm:w-5' />
                   {t.takePhoto}
-                </Button>
-
-                <Button
-                  onClick={startCountdown}
-                  disabled={
-                    !isCameraReady || isCountdownActive || isTimerActive || isProcessingStrip
-                  }
-                  size='lg'
-                  variant='outline'
-                  className='w-full sm:w-auto text-sm sm:text-base'>
-                  <Film className='mr-2 h-4 w-4 sm:h-5 sm:w-5' />
-                  {t.countdownStrip}
-                </Button>
-
-                <Button
-                  onClick={startTimedCapture}
-                  disabled={
-                    !isCameraReady || isCountdownActive || isTimerActive || isProcessingStrip
-                  }
-                  size='lg'
-                  variant='outline'
-                  className='w-full sm:w-auto text-sm sm:text-base'>
-                  <Clock className='mr-2 h-4 w-4 sm:h-5 sm:w-5' />
-                  {t.timedStrip}
                 </Button>
               </div>
             </div>
