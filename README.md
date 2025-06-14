@@ -399,6 +399,7 @@ We appreciate all contributors who help make this project better!
 - **Be respectful** and inclusive in all interactions
 - **Help newcomers** learn and contribute  
 - **Share knowledge** and best practices
+- **Follow our [Code of Conduct](CODE_OF_CONDUCT.md)**
 - **Use issue templates** for structured communication
 
 ## 🐛 Troubleshooting
