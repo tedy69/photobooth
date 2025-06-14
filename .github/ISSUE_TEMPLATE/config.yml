@@ -1,7 +1,7 @@
 blank_issues_enabled: false
 contact_links:
   - name: 💬 General Discussion
-    url: https://github.com/tedyfazrin/photobooth/discussions
+    url: https://github.com/tedy69/photobooth/discussions
     about: Ask questions, share ideas, or discuss the PhotoBooth app
   - name: 🔒 Security Vulnerability
     url: mailto:gmail@tedyfazrin.com

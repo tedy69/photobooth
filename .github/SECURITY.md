@@ -131,8 +131,8 @@ Before each release, we verify:
 - **Encryption**: PGP key available upon request
 
 ### **General Contact**
-- **Issues**: [GitHub Issues](https://github.com/tedyfazrin/photobooth/issues) (for non-security issues)
-- **Discussion**: [GitHub Discussions](https://github.com/tedyfazrin/photobooth/discussions)
+- **Issues**: [GitHub Issues](https://github.com/tedy69/photobooth/issues) (for non-security issues)
+- **Discussion**: [GitHub Discussions](https://github.com/tedy69/photobooth/discussions)
 - **Website**: [https://tedyfazrin.com](https://tedyfazrin.com)
 
 ## 🏆 Security Hall of Fame

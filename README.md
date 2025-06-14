@@ -373,8 +373,8 @@ Security is a top priority for the Advanced PhotoBooth App. We are committed to 
 We appreciate all contributors who help make this project better! 
 
 <!-- Contributors will be automatically listed here -->
-<a href="https://github.com/tedyfazrin/photobooth/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=tedyfazrin/photobooth" />
+<a href="https://github.com/tedy69/photobooth/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=tedy69/photobooth" />
 </a>
 
 ### **🏆 Special Thanks**
@@ -469,10 +469,10 @@ See [LICENSE](LICENSE) file for full details.
 
 ### **📊 Project Stats**
 
-![GitHub stars](https://img.shields.io/github/stars/tedyfazrin/photobooth?style=social)
-![GitHub forks](https://img.shields.io/github/forks/tedyfazrin/photobooth?style=social)
-![GitHub issues](https://img.shields.io/github/issues/tedyfazrin/photobooth)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/tedyfazrin/photobooth)
+![GitHub stars](https://img.shields.io/github/stedy69/photoboothtars/?style=social)
+![GitHub forks](https://img.shields.io/github/forks/tedy69/photobooth?style=social)
+![GitHub issues](https://img.shields.io/github/issues/tedy69/photobooth)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/tedy69/photobooth)
 
 ---
 
