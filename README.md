@@ -469,7 +469,7 @@ See [LICENSE](LICENSE) file for full details.
 
 ### **📊 Project Stats**
 
-![GitHub stars](https://img.shields.io/github/stedy69/photoboothtars/?style=social)
+![GitHub stars](https://img.shields.io/github/stars/tedy69/photobooth/?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/tedy69/photobooth?style=social)
 ![GitHub issues](https://img.shields.io/github/issues/tedy69/photobooth)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/tedy69/photobooth)
