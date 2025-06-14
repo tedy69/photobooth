@@ -2,6 +2,21 @@
 
 A sophisticated, fully-featured photo booth web application with real-time camera capture, professional photo strips, advanced sticker system, custom backgrounds/frames, and comprehensive internationalization support.
 
+## 📋 Table of Contents
+
+- [✨ Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+- [📋 How to Use](#-how-to-use)
+- [🏗️ Architecture](#️-architecture)
+- [🛠️ Tech Stack](#️-tech-stack)
+- [🔧 Configuration](#-configuration)
+- [🤝 Contributing](#-contributing)
+- [🔒 Security](#-security)
+- [🌟 Community & Contributors](#-community--contributors)
+- [🐛 Troubleshooting](#-troubleshooting)
+- [📄 License](#-license)
+- [👨‍💻 Author & Support](#-author--support)
+
 ## ✨ Features
 
 ### 📸 Camera & Photo Capture
@@ -65,7 +80,7 @@ A sophisticated, fully-featured photo booth web application with real-time camer
 1. **Clone the repository:**
 
    ```bash
-   git clone <repository-url>
+   git clone <https://github.com/tedy69/photobooth>
    cd photobooth
    ```
 
@@ -243,70 +258,148 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 ## 🤝 Contributing
 
-We welcome contributions! This project is designed to be developer-friendly and extensible.
+We welcome contributions from developers of all skill levels! This project is designed to be developer-friendly and extensible.
 
-### **Development Workflow**
+### **📋 Quick Contributing Guide**
 
-1. **Fork and clone:**
+1. **📖 Read the [Contributing Guidelines](.github/CONTRIBUTING.md)** - Comprehensive guide with development setup, code style, and best practices
+2. **🔍 Check existing [Issues](../../issues)** - See what needs to be done or report bugs
+3. **💡 Propose ideas** in [Discussions](../../discussions) - Share feature ideas and get feedback
+4. **🔒 Report security issues** via our [Security Policy](.github/SECURITY.md)
 
-   ```bash
-   git clone https://github.com/yourusername/photobooth.git
-   cd photobooth
-   ```
+### **🚀 Quick Start for Contributors**
 
-2. **Create feature branch:**
+```bash
+# 1. Fork and clone
+git clone https://github.com/tedy69/photobooth.git
+cd photobooth
 
-   ```bash
-   git checkout -b feature/amazing-new-feature
-   ```
+# 2. Install dependencies
+npm install
 
-3. **Install and develop:**
+# 3. Start development
+npm run dev
 
-   ```bash
-   npm install
-   npm run dev
-   ```
+# 4. Create feature branch
+git checkout -b feature/amazing-new-feature
 
-4. **Test your changes:**
+# 5. Make changes and test
+npm run build && npm run lint && npm run type-check
+```
 
-   ```bash
-   npm run build    # Ensure production build works
-   npm run lint     # Check code style
-   npm run type-check  # Verify TypeScript
-   ```
+### **🎯 Areas We Need Help With**
 
-5. **Submit pull request:**
-   - Write clear commit messages
-   - Include screenshots for UI changes
-   - Update documentation as needed
+| Priority | Area | Description |
+|----------|------|-------------|
+| 🔥 **High** | **Unit Tests** | Add tests for custom hooks and components |
+| 🔥 **High** | **New Languages** | Add translations for additional languages |
+| 📈 **Medium** | **Sticker Collections** | Add more SVG sticker categories |
+| 📈 **Medium** | **PWA Features** | Enhance progressive web app capabilities |
+| 💡 **Low** | **New Templates** | Additional photo strip layouts |
+| 💡 **Low** | **Animations** | Enhanced UI transitions and effects |
 
-### **Adding New Features**
+### **📝 Issue Templates**
 
-#### **New Stickers**
+We provide structured templates to help you contribute effectively:
 
+- **🐛 [Bug Report](.github/ISSUE_TEMPLATE/bug_report.md)** - Report issues with detailed information
+- **✨ [Feature Request](.github/ISSUE_TEMPLATE/feature_request.md)** - Suggest new features or enhancements  
+- **📚 [Documentation](.github/ISSUE_TEMPLATE/documentation.md)** - Improve guides and documentation
+
+### **🔧 Easy Ways to Contribute**
+
+#### **🎨 New Stickers**
 Add SVG files to `/public/stickers/` and they'll be automatically available.
 
-#### **New Languages**
-
+#### **🌍 New Languages**  
 1. Create translation file in `/lib/translations/[locale].ts`
 2. Export from `/lib/translations/index.ts`
 3. Follow existing translation key structure
 
-#### **New Photo Templates**
-
+#### **📸 New Photo Templates**
 Add templates to `/lib/frames.ts` with layout specifications.
 
-#### **New Backgrounds**
-
+#### **🎨 New Backgrounds**
 Add background definitions to `/lib/backgrounds.ts` with type and properties.
 
-### **Code Style**
+### **📋 Before Contributing**
 
-- Use TypeScript for all new code
-- Follow existing component patterns
-- Add proper error handling
-- Include accessibility features
-- Write meaningful comments for complex logic
+- ✅ **Read** [Contributing Guidelines](.github/CONTRIBUTING.md) for detailed instructions
+- ✅ **Check** existing issues to avoid duplicates  
+- ✅ **Follow** our code style and commit message conventions
+- ✅ **Test** your changes thoroughly across browsers
+- ✅ **Update** documentation for new features
+
+### **🏆 Recognition**
+
+All contributors are recognized in our:
+- 📋 **Contributors section** in this README
+- 📝 **Release notes** for significant contributions  
+- 🎉 **Special thanks** for major features
+
+**See our [Contributing Guidelines](.github/CONTRIBUTING.md) for complete details!**
+
+## 🔒 Security
+
+Security is a top priority for the Advanced PhotoBooth App. We are committed to protecting user privacy and ensuring the integrity of the application.
+
+### **🛡️ Security Features**
+- **Local Processing**: All image processing happens client-side - no data sent to servers
+- **Camera Permissions**: Explicit user consent required for camera access
+- **HTTPS Only**: Production deployments enforce HTTPS connections
+- **No Tracking**: Zero analytics or tracking without explicit consent
+- **User Control**: Complete control over local data storage and deletion
+
+### **🚨 Reporting Security Issues**
+**Please DO NOT report security vulnerabilities through public GitHub issues.**
+
+- **📧 Email**: security@tedyfazrin.com  
+- **📋 Process**: See our [Security Policy](.github/SECURITY.md) for detailed reporting instructions
+- **⏱️ Response**: Initial response within 48 hours
+
+### **🔍 Security Scope**
+- Camera access vulnerabilities
+- Data storage and privacy issues  
+- XSS/CSRF vulnerabilities
+- File upload security
+- Session management (if applicable)
+
+**Read our complete [Security Policy](.github/SECURITY.md) for full details.**
+
+## 🌟 Community & Contributors
+
+### **👥 Contributors**
+
+We appreciate all contributors who help make this project better! 
+
+<!-- Contributors will be automatically listed here -->
+<a href="https://github.com/tedyfazrin/photobooth/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=tedyfazrin/photobooth" />
+</a>
+
+### **🏆 Special Thanks**
+
+- **🎨 Design Inspiration**: Modern photo booth interfaces and Material Design principles
+- **🔧 Technical Foundation**: Next.js, React, and Fabric.js communities
+- **🌍 Internationalization**: Contributors who helped with translations
+- **🧪 Testing**: Community members who tested across different devices and browsers
+
+### **🤝 How to Join the Community**
+
+1. **⭐ Star the repository** to show your support
+2. **🐛 Report bugs** using our structured issue templates  
+3. **💡 Suggest features** through GitHub discussions
+4. **🔧 Contribute code** following our contributing guidelines
+5. **📚 Improve documentation** to help other users and developers
+6. **🌍 Add translations** for your language
+7. **🎨 Share your customizations** in discussions
+
+### **📢 Community Guidelines**
+
+- **Be respectful** and inclusive in all interactions
+- **Help newcomers** learn and contribute  
+- **Share knowledge** and best practices
+- **Use issue templates** for structured communication
 
 ## 🐛 Troubleshooting
 
@@ -347,18 +440,38 @@ See [LICENSE](LICENSE) file for full details.
 
 **Created by [Tedy Fazrin](https://tedyfazrin.com)**
 
-### **Get Help:**
+### **🆘 Get Help & Support**
 
-- 🐛 **Bug reports**: [Create an issue](../../issues/new)
-- 💡 **Feature requests**: [Start a discussion](../../discussions)
-- 📧 **Direct contact**: Use the app's contact form
-- 📚 **Documentation**: Check this README and code comments
+| Type | Where to Go | Description |
+|------|-------------|-------------|
+| 🐛 **Bug Reports** | [Create Issue](../../issues/new?template=bug_report.md) | Use our structured bug report template |
+| ✨ **Feature Requests** | [Create Issue](../../issues/new?template=feature_request.md) | Suggest new features with detailed requirements |
+| 📚 **Documentation** | [Create Issue](../../issues/new?template=documentation.md) | Help improve our guides and docs |
+| 💬 **Questions** | [GitHub Discussions](../../discussions) | Ask questions and share ideas |
+| � **Security Issues** | [gmail@tedyfazrin.com](mailto:gmail@tedyfazrin.com) | Private security vulnerability reporting |
+| 📧 **Direct Contact** | [gmail@tedyfazrin.com](mailto:gmail@tedyfazrin.com) | General inquiries and business |
 
-### **Stay Updated:**
+### **📚 Documentation & Resources**
 
-- ⭐ **Star this repo** to get notifications
-- 👀 **Watch releases** for new features
-- 🍴 **Fork for your own customizations**
+- **📖 [Contributing Guidelines](.github/CONTRIBUTING.md)** - Complete developer guide
+- **🔒 [Security Policy](.github/SECURITY.md)** - Security practices and reporting
+- **📋 [Issue Templates](.github/ISSUE_TEMPLATE/)** - Structured issue reporting
+- **🚀 [Pull Request Template](.github/pull_request_template.md)** - PR guidelines and checklist
+
+### **🌟 Community**
+
+- ⭐ **Star this repo** to show support and get updates
+- 👀 **Watch releases** for new features and security updates  
+- 🍴 **Fork** to create your own customizations
+- 💬 **Join discussions** to share ideas and feedback
+- 🤝 **Contribute** to help improve the project for everyone
+
+### **📊 Project Stats**
+
+![GitHub stars](https://img.shields.io/github/stars/tedyfazrin/photobooth?style=social)
+![GitHub forks](https://img.shields.io/github/forks/tedyfazrin/photobooth?style=social)
+![GitHub issues](https://img.shields.io/github/issues/tedyfazrin/photobooth)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/tedyfazrin/photobooth)
 
 ---
 
