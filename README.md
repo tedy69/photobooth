@@ -353,7 +353,7 @@ Security is a top priority for the Advanced PhotoBooth App. We are committed to 
 ### **🚨 Reporting Security Issues**
 **Please DO NOT report security vulnerabilities through public GitHub issues.**
 
-- **📧 Email**: security@tedyfazrin.com  
+- **📧 Email**: gmail@tedyfazrin.com  
 - **📋 Process**: See our [Security Policy](.github/SECURITY.md) for detailed reporting instructions
 - **⏱️ Response**: Initial response within 48 hours
 

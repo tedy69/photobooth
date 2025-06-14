@@ -126,7 +126,7 @@ Before each release, we verify:
 ## 📞 Contact Information
 
 ### **Security Team**
-- **Email**: security@tedyfazrin.com
+- **Email**: gmail@tedyfazrin.com
 - **Response Time**: Within 48 hours
 - **Encryption**: PGP key available upon request
 
