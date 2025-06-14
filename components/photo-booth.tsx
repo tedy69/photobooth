@@ -211,8 +211,16 @@ export default function PhotoBooth() {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
 
-        // Draw video frame to canvas
+        // Save context state and apply horizontal flip
+        context.save();
+        context.scale(-1, 1);
+        context.translate(-canvas.width, 0);
+
+        // Draw video frame to canvas (mirrored)
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Restore context state
+        context.restore();
 
         // Convert canvas to data URL
         const imageDataUrl = canvas.toDataURL('image/png');
@@ -243,8 +251,16 @@ export default function PhotoBooth() {
         canvas.height = video.videoHeight || 480;
 
         try {
-          // Draw video frame to canvas
+          // Save context state and apply horizontal flip
+          context.save();
+          context.scale(-1, 1);
+          context.translate(-canvas.width, 0);
+
+          // Draw video frame to canvas (mirrored)
           context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+          // Restore context state
+          context.restore();
 
           // Convert canvas to data URL (use JPEG format for better performance)
           const imageDataUrl = canvas.toDataURL('image/jpeg', 0.8);
@@ -1105,7 +1121,7 @@ export default function PhotoBooth() {
                       autoPlay
                       playsInline
                       muted
-                      className='w-full h-full object-cover'
+                      className='w-full h-full object-cover scale-x-[-1]'
                     />
                     <CountdownTimer
                       initialCount={5}
