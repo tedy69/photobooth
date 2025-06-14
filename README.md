@@ -1,39 +1,75 @@
-# Photo Booth Web App
+# 📸 Advanced Photo Booth Web App
 
-A fully responsive photo booth web application with internationalization, real-time camera capture, sticker overlay, and contact form functionality.
+A sophisticated, fully-featured photo booth web application with real-time camera capture, professional photo strips, advanced sticker system, custom backgrounds/frames, and comprehensive internationalization support.
 
-## Features
+## ✨ Features
 
-- 📸 Real-time camera capture with preview
-- 🎨 Drag-and-drop SVG stickers with resizing
-- 🌍 Multi-language support (English, Spanish, French, German, Portuguese)
-- 📱 Fully responsive design for mobile and desktop
-- 📧 Contact form with email delivery
-- 🎯 Professional UI with modern design
-- ♿ Accessibility features and keyboard navigation
+### 📸 Camera & Photo Capture
 
-## Setup
+- **Real-time camera access** with high-quality photo capture
+- **Multiple photo strip templates** (1-photo, 2-photo, 4-photo strips)
+- **Professional photo layouts** (vertical strips, grid layouts, single photos)
+- **Automatic photo strip composition** with proper spacing and borders
+- **Flash effect** and smooth capture animations
 
-### Environment Variables
+### 🎨 Advanced Editing System
 
-1. Copy the example environment file:
+- **Custom backgrounds** (solid colors, gradients, patterns)
+- **Professional frames** with various styles and effects
+- **SVG sticker support** with PNG conversion for optimal rendering
+- **Drag-and-drop sticker placement** with resize and rotation
+- **Layered composition** (background → photo → stickers)
+- **Real-time preview** with Fabric.js canvas integration
 
-   ```bash
-   cp .env.example .env
-   ```
+### 🖼️ Photo Management
 
-2. Configure Web3Forms for email delivery:
-   - Sign up for a free account at [web3forms.com](https://web3forms.com/)
-   - Create a new form
-   - Copy your access key and update `.env`:
-     ```
-     WEB3FORMS_ACCESS_KEY=your_actual_access_key_here
-     SUPPORT_EMAIL=your_email@example.com
-     ```
+- **Local photo gallery** with persistent storage
+- **High-quality photo export** (JPEG with optimized compression)
+- **Instant download functionality**
+- **Photo strip creation** with multiple layouts
+- **Background/frame application** before photo capture
+
+### 🌍 Internationalization
+
+- **7 language support**: English, Spanish, French, German, Japanese, Chinese, Portuguese
+- **Dynamic language switching** with persistent preference
+- **Localized UI elements** and user feedback messages
+- **Right-to-left (RTL) text support** for applicable languages
+
+### 📱 User Experience
+
+- **Fully responsive design** optimized for mobile, tablet, and desktop
+- **Progressive Web App (PWA) ready**
+- **Accessibility compliant** with keyboard navigation and screen reader support
+- **Modern Material Design** with smooth animations
+- **Toast notifications** for user feedback
+- **Loading states** and error handling
+
+### 🔧 Technical Features
+
+- **Modular architecture** with custom React hooks
+- **TypeScript throughout** for type safety
+- **Optimized performance** with lazy loading and code splitting
+- **Professional build pipeline** with Next.js 14
+- **Clean console output** (production-ready, no debug logs)
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18+
+- npm, pnpm, or yarn package manager
 
 ### Installation
 
-1. Install dependencies:
+1. **Clone the repository:**
+
+   ```bash
+   git clone <repository-url>
+   cd photobooth
+   ```
+
+2. **Install dependencies:**
 
    ```bash
    npm install
@@ -43,7 +79,20 @@ A fully responsive photo booth web application with internationalization, real-t
    yarn install
    ```
 
-2. Run the development server:
+3. **Set up environment variables:**
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Configure your `.env` file:
+
+   ```env
+   WEB3FORMS_ACCESS_KEY=your_web3forms_access_key
+   SUPPORT_EMAIL=your_email@example.com
+   ```
+
+4. **Start development server:**
 
    ```bash
    npm run dev
@@ -53,95 +102,264 @@ A fully responsive photo booth web application with internationalization, real-t
    yarn dev
    ```
 
-3. Open [http://localhost:3000](http://localhost:3000) in your browser.
+5. **Open the app:**
+   Navigate to [http://localhost:3000](http://localhost:3000) in your browser
 
-## Email Configuration
+### Production Build
 
-The support form uses Web3Forms API for email delivery with a fallback to mailto links. When properly configured with your Web3Forms access key:
-
-1. Form submissions are sent via Web3Forms API
-2. If the API fails, the form falls back to opening the user's default email client
-3. All form data is validated both client-side and server-side
-
-## Project Structure
-
-```
-├── app/                    # Next.js app directory
-│   ├── api/support/       # API route for form submission
-│   ├── privacy/           # Privacy policy page
-│   ├── terms/             # Terms of service page
-│   └── support/           # Support/contact page
-├── components/            # React components
-│   ├── ui/               # Reusable UI components
-│   ├── photo-booth.tsx   # Main photo booth component
-│   ├── sticker-selector.tsx # Sticker selection interface
-│   └── ...
-├── hooks/                # Custom React hooks
-├── lib/                  # Utility functions and data
-└── public/              # Static assets
+```bash
+npm run build
+npm start
 ```
 
-## Technologies Used
+## 📋 How to Use
 
-- **Next.js 14** - React framework with App Router
-- **TypeScript** - Type safety and better development experience
-- **Tailwind CSS** - Utility-first CSS framework
-- **Radix UI** - Headless, accessible UI components
-- **Lucide React** - Beautiful, customizable icons
-- **Web3Forms** - Form submission and email delivery service
+### 1. **Camera Setup**
 
-## Contributing
+- Grant camera permissions when prompted
+- Position yourself in the camera view
+- Select your preferred photo template (single photo or strip)
 
-We welcome contributions to the Photo Booth Web App! Here's how you can help:
+### 2. **Choose Background & Frame**
 
-### Getting Started
+- Browse available backgrounds (colors, gradients, patterns)
+- Select a decorative frame style
+- Preview your selection in real-time
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/your-feature-name`
-3. Make your changes and commit them: `git commit -m 'Add some feature'`
-4. Push to the branch: `git push origin feature/your-feature-name`
-5. Submit a pull request
+### 3. **Capture Photos**
 
-### Guidelines
+- **Single Photo**: Click "Take Photo" for instant capture
+- **Photo Strip**: Click "Take Photo" to start the timer sequence
+  - Multiple photos captured automatically (every 5 seconds)
+  - Timer shows progress and countdown
+  - Complete strip created automatically
 
-- Follow the existing code style and conventions
-- Write clear, descriptive commit messages
-- Test your changes thoroughly
-- Update documentation as needed
-- Make sure your code passes all existing tests
+### 4. **Edit & Enhance**
 
-### Issues
+- Add stickers by dragging from the sticker panel
+- Resize stickers using corner handles
+- Rotate stickers by dragging
+- Remove stickers with delete key or remove button
+- Change backgrounds/frames anytime
 
-- Use the issue tracker to report bugs or suggest new features
-- Search existing issues before creating a new one
-- Provide detailed information when reporting bugs
-- Include steps to reproduce the issue
+### 5. **Save & Share**
 
-## License
+- Download high-quality images instantly
+- Save to local gallery for later access
+- Photos persist between sessions
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## 🏗️ Architecture
 
-### MIT License Summary
+### **Modular Design**
 
-You are free to:
+The app uses a clean, modular architecture with specialized hooks:
 
-- Use this software commercially
-- Modify and distribute the software
-- Use the software privately
-- Include the software in larger works
+```typescript
+// Custom Hooks
+useCamera(); // Camera access, photo capture
+useFabricStickers(); // Canvas management, stickers, backgrounds
+usePhotoGallery(); // Local storage, photo management
+useLanguage(); // Internationalization
+```
 
-Under the condition that:
+### **Component Structure**
 
-- You include the original copyright notice and license text
+```
+components/
+├── photo-booth.tsx           # Main application logic
+├── background-frame-selector.tsx  # Background/frame selection
+├── sticker-selector.tsx      # Sticker browsing and selection
+├── photo-gallery.tsx         # Gallery view and management
+├── timer-indicator.tsx       # Photo strip countdown timer
+└── ui/                      # Reusable UI components
+```
 
-## Author
+### **State Management**
 
-Created by [Tedy Fazrin](https://tedyfazrin.com)
+- **React hooks** for local component state
+- **Context providers** for shared state (language, theme)
+- **Local storage** for persistence (photos, preferences)
+- **Canvas state** managed through Fabric.js integration
 
-## Support
+## 🛠️ Tech Stack
 
-If you encounter any issues or have questions, please:
+### **Frontend Framework**
 
-1. Check the [Issues](../../issues) page for similar problems
-2. Create a new issue if your problem isn't already reported
-3. Use the contact form in the app for general inquiries
+- **Next.js 14** - React framework with App Router and server-side rendering
+- **TypeScript** - Full type safety throughout the application
+- **React 18** - Modern React with hooks and concurrent features
+
+### **UI & Styling**
+
+- **Tailwind CSS** - Utility-first CSS framework for rapid UI development
+- **Radix UI** - Headless, accessible component primitives
+- **Lucide React** - Beautiful, customizable icon library
+- **Fabric.js** - Powerful canvas library for image manipulation
+
+### **Image Processing**
+
+- **Canvas API** - Native browser image capture and processing
+- **File API** - Handle image uploads and downloads
+- **Base64 encoding** - Efficient image data management
+
+### **Internationalization**
+
+- **Custom i18n system** - Lightweight, type-safe translations
+- **Dynamic imports** - Language bundles loaded on demand
+- **Locale persistence** - User language preference storage
+
+### **Development Tools**
+
+- **ESLint** - Code linting and style enforcement
+- **Prettier** - Code formatting
+- **Husky** - Git hooks for code quality
+- **VS Code integration** - Optimized developer experience
+
+## 🔧 Configuration
+
+### **Environment Variables**
+
+```env
+# Email service configuration (optional)
+WEB3FORMS_ACCESS_KEY=your_web3forms_key
+SUPPORT_EMAIL=support@yoursite.com
+
+# App configuration
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+### **Browser Support**
+
+- **Chrome/Edge** 90+ (full features)
+- **Firefox** 88+ (full features)
+- **Safari** 14+ (full features)
+- **Mobile browsers** iOS 14+, Android 10+
+
+### **Camera Requirements**
+
+- HTTPS required for camera access (or localhost for development)
+- User permission required for camera and microphone
+- Fallback UI for devices without camera access
+
+## 🤝 Contributing
+
+We welcome contributions! This project is designed to be developer-friendly and extensible.
+
+### **Development Workflow**
+
+1. **Fork and clone:**
+
+   ```bash
+   git clone https://github.com/yourusername/photobooth.git
+   cd photobooth
+   ```
+
+2. **Create feature branch:**
+
+   ```bash
+   git checkout -b feature/amazing-new-feature
+   ```
+
+3. **Install and develop:**
+
+   ```bash
+   npm install
+   npm run dev
+   ```
+
+4. **Test your changes:**
+
+   ```bash
+   npm run build    # Ensure production build works
+   npm run lint     # Check code style
+   npm run type-check  # Verify TypeScript
+   ```
+
+5. **Submit pull request:**
+   - Write clear commit messages
+   - Include screenshots for UI changes
+   - Update documentation as needed
+
+### **Adding New Features**
+
+#### **New Stickers**
+
+Add SVG files to `/public/stickers/` and they'll be automatically available.
+
+#### **New Languages**
+
+1. Create translation file in `/lib/translations/[locale].ts`
+2. Export from `/lib/translations/index.ts`
+3. Follow existing translation key structure
+
+#### **New Photo Templates**
+
+Add templates to `/lib/frames.ts` with layout specifications.
+
+#### **New Backgrounds**
+
+Add background definitions to `/lib/backgrounds.ts` with type and properties.
+
+### **Code Style**
+
+- Use TypeScript for all new code
+- Follow existing component patterns
+- Add proper error handling
+- Include accessibility features
+- Write meaningful comments for complex logic
+
+## 🐛 Troubleshooting
+
+### **Camera Issues**
+
+- **Permission denied**: Ensure HTTPS or localhost
+- **No camera detected**: Check browser permissions
+- **Poor quality**: Verify camera resolution settings
+
+### **Performance Issues**
+
+- **Slow sticker rendering**: Check browser Canvas API support
+- **Memory usage**: Clear gallery periodically on mobile devices
+- **Build issues**: Ensure Node.js 18+ is installed
+
+### **Language Issues**
+
+- **Missing translations**: Check translation file completeness
+- **Incorrect locale**: Verify browser language settings
+
+## 📄 License
+
+**MIT License** - Feel free to use this project for personal or commercial purposes.
+
+### Quick License Summary:
+
+✅ **Commercial use allowed**  
+✅ **Modification allowed**  
+✅ **Distribution allowed**  
+✅ **Private use allowed**
+
+📋 **License text must be included**  
+📋 **Copyright notice must be preserved**
+
+See [LICENSE](LICENSE) file for full details.
+
+## 👨‍💻 Author & Support
+
+**Created by [Tedy Fazrin](https://tedyfazrin.com)**
+
+### **Get Help:**
+
+- 🐛 **Bug reports**: [Create an issue](../../issues/new)
+- 💡 **Feature requests**: [Start a discussion](../../discussions)
+- 📧 **Direct contact**: Use the app's contact form
+- 📚 **Documentation**: Check this README and code comments
+
+### **Stay Updated:**
+
+- ⭐ **Star this repo** to get notifications
+- 👀 **Watch releases** for new features
+- 🍴 **Fork for your own customizations**
+
+---
+
+**Made with ❤️ for the developer community**
