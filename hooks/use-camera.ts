@@ -1,152 +1,120 @@
-'use client';
-
-import { useRef, useState, useCallback } from 'react';
-import { toast } from '@/hooks/use-toast';
+"use client";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
-  initializeCamera,
+  cameraFailure,
   capturePhotoFromVideo,
-  createFlashEffect,
   stopMediaStream,
-} from '@/lib/camera-utils';
+  waitForVideoFrame,
+  type CameraFailure,
+} from "@/lib/camera-utils";
 
 export function useCamera() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const cameraStreamRef = useRef<MediaStream | null>(null);
-
-  const [isCameraReady, setIsCameraReady] = useState(false);
-  const [isCapturing, setIsCapturing] = useState(false);
-  const [capturedImage, setCapturedImageState] = useState<string>('');
-  const [error, setError] = useState<string>('');
-
-  // Wrapper function with logging
-  const setCapturedImage = useCallback((imageUrl: string) => {
-    setCapturedImageState(imageUrl);
+  const streamRef = useRef<MediaStream | null>(null);
+  const generation = useRef(0);
+  const readiness = useRef<AbortController | null>(null);
+  const capturing = useRef(false);
+  const [status, setStatus] = useState<
+    "off" | "requesting" | "ready" | "error"
+  >("off");
+  const [error, setError] = useState<CameraFailure | null>(null);
+  const stopCamera = useCallback(() => {
+    generation.current += 1;
+    readiness.current?.abort();
+    readiness.current = null;
+    const stream = streamRef.current;
+    streamRef.current = null;
+    stream?.getTracks().forEach((track) => {
+      track.onended = null;
+    });
+    stopMediaStream(stream);
+    const video = videoRef.current;
+    if (video) {
+      video.pause();
+      video.srcObject = null;
+    }
+    capturing.current = false;
+    setStatus("off");
+    setError(null);
   }, []);
   const startCamera = useCallback(async () => {
-    if (!videoRef.current) return;
-
+    stopCamera();
+    const id = generation.current;
+    const controller = new AbortController();
+    readiness.current = controller;
+    setStatus("requesting");
     try {
-      if (cameraStreamRef.current) {
-        stopMediaStream(cameraStreamRef.current);
-      }
-
-      const mediaStream = await initializeCamera({
-        facingMode: 'user',
+      if (!navigator.mediaDevices?.getUserMedia)
+        throw new Error("Camera unavailable");
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: {
+          facingMode: "user",
+          width: { ideal: 1280 },
+          height: { ideal: 960 },
+        },
       });
-
-      if (mediaStream && videoRef.current) {
-        videoRef.current.srcObject = mediaStream;
-        cameraStreamRef.current = mediaStream;
-        setIsCameraReady(true);
-        setError('');
+      if (id !== generation.current || !videoRef.current) {
+        stopMediaStream(stream);
+        return;
       }
-    } catch {
-      setError('Failed to access camera. Please check permissions.');
-
-      // For testing stickers, set a mock captured image
-      const canvas = document.createElement('canvas');
-      canvas.width = 400;
-      canvas.height = 300;
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        // Create a gradient background
-        const gradient = ctx.createLinearGradient(0, 0, 400, 300);
-        gradient.addColorStop(0, '#ff6b6b');
-        gradient.addColorStop(1, '#4ecdc4');
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, 400, 300);
-
-        // Add some text
-        ctx.fillStyle = 'white';
-        ctx.font = '24px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText('Test Photo for Stickers', 200, 150);
-
-        const testImage = canvas.toDataURL('image/jpeg', 0.8);
-        setCapturedImage(testImage);
-      }
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const capturePhoto = useCallback(async () => {
-    if (!videoRef.current || !canvasRef.current || isCapturing) return null;
-
-    setIsCapturing(true);
-
-    try {
-      // Create flash effect
-      createFlashEffect(document.body);
-
-      // Small delay for flash effect
-      await new Promise((resolve) => setTimeout(resolve, 100));
-
-      const imageDataUrl = capturePhotoFromVideo(videoRef.current, {
-        format: 'image/jpeg',
-        quality: 0.9,
+      streamRef.current = stream;
+      const video = videoRef.current;
+      video.srcObject = stream;
+      stream.getVideoTracks().forEach((track) => {
+        track.onended = () => {
+          if (id !== generation.current) return;
+          stopCamera();
+          setError("busy");
+          setStatus("error");
+        };
       });
-
-      if (imageDataUrl) {
-        setCapturedImage(imageDataUrl);
-        toast({
-          title: 'Photo captured!',
-          description: 'Your photo has been captured successfully.',
-        });
-        return imageDataUrl; // Return the captured image URL
+      // Readiness and play run together so a stalled play promise is also bounded.
+      await Promise.all([
+        video.play(),
+        waitForVideoFrame(video, controller.signal),
+      ]);
+      if (id !== generation.current) return;
+      setStatus("ready");
+    } catch (cause) {
+      if (id !== generation.current) return;
+      const failure = streamRef.current ? "readiness" : cameraFailure(cause);
+      stopCamera();
+      setError(failure);
+      setStatus("error");
+    }
+  }, [stopCamera]);
+  const capturePhoto = useCallback(
+    (mirror: boolean) => {
+      if (capturing.current || status !== "ready" || !videoRef.current)
+        return null;
+      capturing.current = true;
+      try {
+        return capturePhotoFromVideo(videoRef.current, mirror);
+      } catch {
+        setError("capture");
+        return null;
+      } finally {
+        capturing.current = false;
       }
-
-      return null;
-    } catch {
-      toast({
-        title: 'Capture failed',
-        description: 'There was a problem capturing your photo. Please try again.',
-        variant: 'destructive',
-      });
-      return null;
-    } finally {
-      setIsCapturing(false);
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isCapturing]);
-
-  const retakePhoto = useCallback(() => {
-    setCapturedImage('');
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const setCapturedImageImmediately = useCallback((imageUrl: string) => {
-    setCapturedImageState(imageUrl);
-    // Force a state update by using a functional update
-    setCapturedImageState(() => {
-      return imageUrl;
-    });
-    return imageUrl;
-  }, []);
-
-  const stopCamera = useCallback(() => {
-    if (cameraStreamRef.current) {
-      stopMediaStream(cameraStreamRef.current);
-      cameraStreamRef.current = null;
-      setIsCameraReady(false);
-    }
-  }, []);
-
-  return {
+    },
+    [status],
+  );
+  useEffect(() => {
+    const leave = () => {
+      if (document.hidden) stopCamera();
+    };
+    const pagehide = () => stopCamera();
+    document.addEventListener("visibilitychange", leave);
+    window.addEventListener("pagehide", pagehide);
+    return () => {
+      document.removeEventListener("visibilitychange", leave);
+      window.removeEventListener("pagehide", pagehide);
+      stopCamera();
+    };
+  }, [stopCamera]);
+  return [
     videoRef,
-    canvasRef,
-    isCameraReady,
-    isCapturing,
-    capturedImage,
-    error,
-    startCamera,
-    capturePhoto,
-    retakePhoto,
-    stopCamera,
-    setCapturedImage,
-    setCapturedImageImmediately,
-  };
+    { status, error, startCamera, stopCamera, capturePhoto },
+  ] as const;
 }

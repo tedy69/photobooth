@@ -26,9 +26,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# package-lock.json
-package-lock.json
 # pnpm
 pnpm-lock.yaml
 # yarn
 yarn.lock
+/test-results/
+/playwright-report/
+/output/
+.DS_Store

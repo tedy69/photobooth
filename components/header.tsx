@@ -1,45 +1,55 @@
-'use client';
-
-import { useLanguage } from '@/hooks/use-language';
-import LanguageSelector from './language-selector';
-import Image from 'next/image';
-import Link from 'next/link';
-
+"use client";
+import Link from "next/link";
+import { useTheme } from "next-themes";
+import { useLanguage } from "@/hooks/use-language";
+import { getLanguageName, getSupportedLanguages } from "@/lib/i18n";
 export default function Header() {
-  const { t } = useLanguage();
-
+  const { language, setLanguage, copy, t } = useLanguage();
+  const { resolvedTheme, setTheme } = useTheme();
   return (
-    <header className='bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white shadow-lg'>
-      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-        <div className='flex items-center justify-between h-16 sm:h-20'>
-          {/* Logo and Title */}
-          <Link 
-            href='/'
-          className='flex items-center space-x-3'>
-            <div className='relative'>
-              <Image
-                src='/logo.svg'
-                alt='Photo Booth Logo'
-                width={40}
-                height={40}
-                className='h-8 w-8 sm:h-10 sm:w-10'
-                priority
-              />
-            </div>
-            <div>
-              <h1 className='text-xl sm:text-2xl font-bold tracking-tight'>
-                {t.title ?? 'Photo Booth'}
-              </h1>
-              <p className='text-xs sm:text-sm text-white/80 hidden sm:block'>
-                {t.description ?? 'Capture memories with style'}
-              </p>
-            </div>
-          </Link>
-
-          {/* Language Selector */}
-          <div className='flex items-center space-x-4'>
-            <LanguageSelector />
-          </div>
+    <header className="site-header">
+      <a className="skip-link" href="#main-content">
+        {copy.skip}
+      </a>
+      <div className="header-inner">
+        <Link className="brand" href="/">
+          <img src="/logo.svg" width="36" height="36" alt="" />
+          <span>
+            Photo Booth<span className="brand-caption">by Tedy Fazrin</span>
+          </span>
+        </Link>
+        <div className="header-controls">
+          <nav aria-label={copy.studio}>
+            <Link href="/">{copy.studio}</Link>
+            <Link href="/demo">Demo</Link>
+            <Link href="/support">{t.supportCenter}</Link>
+          </nav>
+          <label className="language-control">
+            <span className="sr-only">Language</span>
+            <select
+              value={language}
+              onChange={(event) => setLanguage(event.target.value)}
+              aria-label="Language"
+            >
+              {getSupportedLanguages().map((code) => (
+                <option key={code} value={code}>
+                  {getLanguageName(code)}
+                </option>
+              ))}
+            </select>
+          </label>
+          <button
+            className="theme-control"
+            type="button"
+            onClick={() =>
+              setTheme(resolvedTheme === "dark" ? "light" : "dark")
+            }
+            aria-label={resolvedTheme === "dark" ? copy.light : copy.dark}
+          >
+            <span aria-hidden="true">
+              {resolvedTheme === "dark" ? "☀" : "◐"}
+            </span>
+          </button>
         </div>
       </div>
     </header>
