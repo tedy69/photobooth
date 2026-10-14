@@ -34,7 +34,15 @@ rollback() {
 }
 if ! docker exec ihsg-bot-ingress-1 nginx -c /tmp/nginx.conf -t; then rollback; exit 1; fi
 docker exec ihsg-bot-ingress-1 nginx -c /tmp/nginx.conf -s reload
-if ! curl -fsS --resolve photobooth.tedyfazrin.com:443:127.0.0.1 https://photobooth.tedyfazrin.com/api/health | python3 -c 'import json,sys; assert json.load(sys.stdin)["revision"] == sys.argv[1]' "$sha"; then rollback; exit 1; fi
+healthy=false
+for attempt in {1..15}; do
+  if curl -fsS --resolve photobooth.tedyfazrin.com:443:127.0.0.1 https://photobooth.tedyfazrin.com/api/health | python3 -c 'import json,sys; assert json.load(sys.stdin)["revision"] == sys.argv[1]' "$sha"; then
+    healthy=true
+    break
+  fi
+  sleep 1
+done
+if [ "$healthy" != true ]; then rollback; exit 1; fi
 ln -sfn "releases/$sha" "$root/current.next"
 mv -Tf "$root/current.next" "$root/current"
 [ -z "$previous" ] || printf '%s\n' "$previous" > "$root/previous"

@@ -88,3 +88,8 @@ TypeScript/lint/build passed, and full/production dependency audits report zero
 vulnerabilities. Text resizing to 200% at 390px passed. The gallery quota test
 also confirms existing saved photos remain available for viewing/downloading
 when a later save fails.
+
+The first VPS activation attempt exercised configuration rollback: an immediate
+health request reached old Nginx workers during reload and restored the bootstrap
+configuration. The activation script now waits for the expected revision through
+the graceful handover. Public DNS was unchanged during that check.
