@@ -93,3 +93,7 @@ recreate only the Photobooth container after a runtime secret change, then read
 `supportConfigured` from health. Support tests use mocked provider responses.
 A malformed production request confirms endpoint validation without sending an
 email. A real provider-delivery test requires an explicitly requested message.
+
+Activation waits for the exact revision across Nginx's graceful worker handover;
+an immediate response from an old worker does not trigger a false rollback. A
+bounded timeout still restores the prior dedicated site configuration.
