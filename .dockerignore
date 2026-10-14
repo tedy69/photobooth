@@ -1,0 +1,10 @@
+.git
+node_modules
+.next
+output
+test-results
+playwright-report
+.remember
+.env*
+**/._*
+.DS_Store

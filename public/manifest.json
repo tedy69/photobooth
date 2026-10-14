@@ -1,12 +1,11 @@
 {
   "name": "Photo Booth",
   "short_name": "PhotoBooth",
-  "description": "Professional photo booth web app with real-time camera capture, fun stickers, and instant downloads.",
+  "description": "Take photos, edit a photo strip, and download your composition.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#667EEA",
-  "theme_color": "#667EEA",
-  "orientation": "portrait-primary",
+  "background_color": "#f5f3ec",
+  "theme_color": "#f5f3ec",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -34,19 +33,5 @@
       "type": "image/png"
     }
   ],
-  "categories": ["photography", "entertainment", "utilities"],
-  "screenshots": [
-    {
-      "src": "/screenshot-mobile.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow"
-    },
-    {
-      "src": "/screenshot-desktop.png",
-      "sizes": "1920x1080",
-      "type": "image/png",
-      "form_factor": "wide"
-    }
-  ]
+  "categories": ["photography", "entertainment", "utilities"]
 }
